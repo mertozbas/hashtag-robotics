@@ -12,7 +12,12 @@ window.SO101 = window.SO101 || {};
     const PARTS = window.SO101.PARTS || {};
     const ORDER = (window.SO101.PART_ORDER || []).filter(id => PARTS[id]);
 
-    const selectable = (arm.parts || []).map(p => p.obj).filter(Boolean);
+    // follower parts + leader-only meshes (handle/trigger/wrist); leader meshes
+    // are hidden in follower mode, so the raycast below filters by visibility.
+    const selectable = [].concat(
+      (arm.parts || []).map(p => p.obj),
+      arm.leaderParts || []
+    ).filter(Boolean);
     const accentColor = new THREE.Color(0xe08a3c);
 
     // ---------- selection state ----------
@@ -99,7 +104,7 @@ window.SO101 = window.SO101 || {};
       ndc.x = ((e.clientX - r.left) / r.width) * 2 - 1;
       ndc.y = -((e.clientY - r.top) / r.height) * 2 + 1;
       ray.setFromCamera(ndc, V.camera);
-      const hits = ray.intersectObjects(selectable, false);
+      const hits = ray.intersectObjects(selectable.filter(m => m.visible), false);
       if (hits.length && hits[0].object.userData.partId) {
         const id = hits[0].object.userData.partId;
         if (id === selectedId) deselect(); else select(id);
@@ -114,7 +119,7 @@ window.SO101 = window.SO101 || {};
       ndc.x = ((e.clientX - r.left) / r.width) * 2 - 1;
       ndc.y = -((e.clientY - r.top) / r.height) * 2 + 1;
       ray.setFromCamera(ndc, V.camera);
-      canvas.style.cursor = ray.intersectObjects(selectable, false).length ? 'pointer' : 'grab';
+      canvas.style.cursor = ray.intersectObjects(selectable.filter(m => m.visible), false).length ? 'pointer' : 'grab';
     });
 
     // =====================================================================

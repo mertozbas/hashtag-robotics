@@ -106,6 +106,32 @@ window.SO101.PARTS = {
     desc: 'Paralel tutucunun hareketli çenesi. Sabit çeneyle birlikte nesneleri kavrar; uçları değiştirilebilir.',
     tags: ['Paralel tutucu', 'Modüler uç'],
   },
+
+  // ---- Leader (kontrolcü) kola özel parçalar ----
+  leader_handle: {
+    name: 'Leader Tutamağı',
+    type: 'Kontrol kabzası · 3D baskı',
+    material: 'PLA / PETG',
+    qty: '×1',
+    desc: 'Operatörün elle kavradığı kontrol kabzası. Leader kolu bu tutamaktan yönlendirir, follower kol hareketi birebir taklit eder. Üstteki kanca, kullanılmadığında asarak saklamayı kolaylaştırır.',
+    tags: ['Elle yönlendirme', 'Leader'],
+  },
+  leader_trigger: {
+    name: 'Leader Tetiği',
+    type: 'Kontrol · 3D baskı',
+    material: 'PLA / PETG',
+    qty: '×1',
+    desc: 'Tutamağın tetiği. Sıkıldığında follower kolun tutucusunu açıp kapatır; teleoperasyonda kavrama kontrolünü sağlar.',
+    tags: ['Tetik', 'Tutucu kontrolü'],
+  },
+  leader_wrist_roll: {
+    name: 'Leader Bilek Roll',
+    type: 'Eklem · 3D baskı',
+    material: 'PLA / PETG',
+    qty: '×1',
+    desc: 'Leader kolun bilek roll çıkışı. Tutamağı kendi ekseninde döndürür ve bu hareketi follower kola aktarır.',
+    tags: ['Roll çıkışı', 'Leader'],
+  },
 };
 
 /* Display order for the explorer tour (base → gripper). */

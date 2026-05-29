@@ -32,8 +32,8 @@
     V.setMode(m);
     $('#product-title').textContent = m === 'follower' ? 'SO-101 Follower Arm' : 'SO-101 Leader Arm';
     $('#product-desc').textContent = m === 'follower'
-      ? '5 eksenli, tutuculu, LeRobot uyumlu masaüstü robot kol. Bir parçaya dokun, hareketleri izle. İhtiyacını ilet, sana özel teklifle dönelim.'
-      : 'Operatörün elle yönlendirdiği kontrolcü kol; çalışan kola birebir hareket aktarır. İkisini birden mi istersin? Teklif formunda belirt.';
+      ? '5 eksenli, tutuculu, LeRobot uyumlu masaüstü robot kol. Kurulu ve test edilmiş gelir; elektriğe tak, kullanmaya başla.'
+      : 'Operatörün elle yönlendirdiği kontrolcü kol; follower kola birebir hareket aktarır. SO-101 ön satışında leader + follower birlikte gelir.';
   }));
 
   // ---------- gripper ----------
@@ -190,7 +190,7 @@
     const tags = $('#insp-tags'); tags.innerHTML = '';
     (meta.tags || []).forEach(t => { const s = document.createElement('span'); s.className = 'insp-tag'; s.textContent = t; tags.appendChild(s); });
     const idx = ORDER.indexOf(id);
-    $('#insp-count').textContent = (idx + 1) + ' / ' + ORDER.length;
+    $('#insp-count').textContent = idx >= 0 ? ((idx + 1) + ' / ' + ORDER.length) : 'Leader';
     insp.classList.add('open');
     document.getElementById('product').classList.add('hidden');
   }
