@@ -304,9 +304,27 @@ input[type="range"]::-moz-range-thumb {
 .insp-foot:hover { color: var(--txt); }
 .insp-foot:hover svg { transform: translateX(4px); }
 
+/* collapsible-dock handle (mobile only) */
+.dock-toggle { display: none; }
+
 @media (max-width: 920px) {
   /* touch-irrelevant mouse hint ("scroll to zoom" etc.) — hide on mobile */
   #hint { display: none; }
+
+  /* control panel becomes a collapsible bottom sheet so it never blocks the model */
+  #dock { transition: transform 0.34s cubic-bezier(.2,.8,.2,1); }
+  #dock.collapsed { transform: translateY(calc(100% - 40px)); }
+  .dock-toggle {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    width: 100%; background: none; border: 0; cursor: pointer;
+    padding: 10px 0 6px; -webkit-tap-highlight-color: transparent;
+  }
+  .dock-grip { width: 42px; height: 5px; border-radius: 5px; background: rgba(255,255,255,0.3); }
+  .dock-toggle-text {
+    display: none; font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--txt-dim);
+  }
+  #dock.collapsed .dock-toggle-text { display: block; }
   #topbar { padding: 13px 16px; }
   .brand .mark { font-size: 18px; }
   .brand .tag { display: none; }

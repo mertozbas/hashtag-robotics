@@ -210,10 +210,20 @@
   $('#insp-prev').addEventListener('click', () => ix.tourPrev());
   $('#insp-next').addEventListener('click', () => ix.tourNext());
 
+  // ---------- collapsible control dock (mobile bottom sheet) ----------
+  const dock = $('#dock');
+  const dockToggle = $('#dock-toggle');
+  const isMobile = () => window.matchMedia('(max-width: 920px)').matches;
+  if (dockToggle) dockToggle.addEventListener('click', () => dock.classList.toggle('collapsed'));
+  // start collapsed on mobile so the 3D model is unobstructed
+  if (isMobile()) dock.classList.add('collapsed');
+
   ix.onChange(id => {
     $$('.part-row').forEach(r => r.classList.toggle('on', r.dataset.id === id));
     if (id) {
       showInspector(id);
+      // on mobile, fold the dock away so the part inspector + model stay visible
+      if (isMobile()) dock.classList.add('collapsed');
       const active = partList.querySelector('.part-row.on');
       if (active && active.scrollIntoView) {
         // keep selection visible in the list without scrolling the page
