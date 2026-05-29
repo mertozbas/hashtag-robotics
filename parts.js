@@ -134,8 +134,9 @@ window.SO101.PARTS = {
   },
 };
 
-/* Display order for the explorer tour (base → gripper). */
-window.SO101.PART_ORDER = [
+/* Display order for the explorer tour (base → end-effector).
+   Shared spine is identical; only the end-effector parts differ between modes. */
+const SO101_SPINE = [
   'base_so101_v2',
   'base_motor_holder_so101_v1',
   'waveshare_mounting_plate_so101_v2',
@@ -147,6 +148,15 @@ window.SO101.PART_ORDER = [
   'motor_holder_so101_wrist_v1',
   'wrist_roll_pitch_so101_v2',
   'sts3215_03a_no_horn_v1',
+];
+window.SO101.PART_ORDER_FOLLOWER = SO101_SPINE.concat([
   'wrist_roll_follower_so101_v1',
   'moving_jaw_so101_v1',
-];
+]);
+window.SO101.PART_ORDER_LEADER = SO101_SPINE.concat([
+  'leader_wrist_roll',
+  'leader_handle',
+  'leader_trigger',
+]);
+// back-compat default (follower)
+window.SO101.PART_ORDER = window.SO101.PART_ORDER_FOLLOWER;

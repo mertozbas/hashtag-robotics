@@ -30,6 +30,7 @@
     b.classList.add('on');
     const m = b.dataset.mode;
     V.setMode(m);
+    if (window.SO101.ix) { window.SO101.ix.deselect(); buildPartList(); }
     $('#product-title').textContent = m === 'follower' ? 'SO-101 Follower Arm' : 'SO-101 Leader Arm';
     $('#product-desc').textContent = m === 'follower'
       ? '5 eksenli, tutuculu, LeRobot uyumlu masaüstü robot kol. Kurulu ve test edilmiş gelir; elektriğe tak, kullanmaya başla.'
@@ -157,22 +158,28 @@
   const ix = window.SO101.initInteractions(V);
   window.SO101.ix = ix;
   const PARTS = ix.getParts();
-  const ORDER = ix.getOrder();
 
-  // build part list
+  // build part list (rebuilt on mode change so leader/follower show their own parts)
   const partList = $('#part-list');
-  ORDER.forEach((id, i) => {
-    const meta = PARTS[id];
-    const row = document.createElement('button');
-    row.className = 'part-row'; row.dataset.id = id;
-    row.innerHTML =
-      '<span class="pr-idx">' + String(i + 1).padStart(2, '0') + '</span>' +
-      '<span class="pr-body"><span class="pr-name">' + meta.name + '</span>' +
-      '<span class="pr-type">' + meta.type + '</span></span>' +
-      '<span class="pr-qty">' + meta.qty + '</span>';
-    row.addEventListener('click', () => ix.select(id));
-    partList.appendChild(row);
-  });
+  function buildPartList() {
+    const order = ix.getOrder();
+    partList.innerHTML = '';
+    order.forEach((id, i) => {
+      const meta = PARTS[id]; if (!meta) return;
+      const row = document.createElement('button');
+      row.className = 'part-row'; row.dataset.id = id;
+      row.innerHTML =
+        '<span class="pr-idx">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<span class="pr-body"><span class="pr-name">' + meta.name + '</span>' +
+        '<span class="pr-type">' + meta.type + '</span></span>' +
+        '<span class="pr-qty">' + meta.qty + '</span>';
+      row.addEventListener('click', () => ix.select(id));
+      partList.appendChild(row);
+    });
+    const sel = ix.getSelected && ix.getSelected();
+    if (sel) { const r = partList.querySelector('.part-row[data-id="' + sel + '"]'); if (r) r.classList.add('on'); }
+  }
+  buildPartList();
 
   // moves
   $$('.move-btn').forEach(b => b.addEventListener('click', () => ix.play(b.dataset.move)));
@@ -189,8 +196,9 @@
     $('#insp-qty').textContent = meta.qty;
     const tags = $('#insp-tags'); tags.innerHTML = '';
     (meta.tags || []).forEach(t => { const s = document.createElement('span'); s.className = 'insp-tag'; s.textContent = t; tags.appendChild(s); });
-    const idx = ORDER.indexOf(id);
-    $('#insp-count').textContent = idx >= 0 ? ((idx + 1) + ' / ' + ORDER.length) : 'Leader';
+    const order = ix.getOrder();
+    const idx = order.indexOf(id);
+    $('#insp-count').textContent = idx >= 0 ? ((idx + 1) + ' / ' + order.length) : '·';
     insp.classList.add('open');
     document.getElementById('product').classList.add('hidden');
   }

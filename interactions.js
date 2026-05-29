@@ -10,7 +10,10 @@ window.SO101 = window.SO101 || {};
     const THREE = V.THREE;
     const arm = V.arm;
     const PARTS = window.SO101.PARTS || {};
-    const ORDER = (window.SO101.PART_ORDER || []).filter(id => PARTS[id]);
+    const ORDER_F = (window.SO101.PART_ORDER_FOLLOWER || window.SO101.PART_ORDER || []).filter(id => PARTS[id]);
+    const ORDER_L = (window.SO101.PART_ORDER_LEADER || []).filter(id => PARTS[id]);
+    // the tour / part list follow the active mode (leader vs follower end-effector)
+    function currentOrder() { return (arm.getMode && arm.getMode() === 'leader') ? ORDER_L : ORDER_F; }
 
     // follower parts + leader-only meshes (handle/trigger/wrist); leader meshes
     // are hidden in follower mode, so the raycast below filters by visibility.
@@ -82,8 +85,9 @@ window.SO101 = window.SO101 || {};
       emitChange();
     }
 
-    // tour
+    // tour (follows the active mode's part order)
     function tourStep(dir) {
+      const ORDER = currentOrder();
       if (!ORDER.length) return;
       let i = ORDER.indexOf(selectedId);
       i = (i < 0) ? (dir > 0 ? 0 : ORDER.length - 1) : (i + dir + ORDER.length) % ORDER.length;
@@ -246,7 +250,7 @@ window.SO101 = window.SO101 || {};
     return {
       select, deselect, tourNext: () => tourStep(1), tourPrev: () => tourStep(-1),
       play, stop, goHome, onChange, onMoveChange,
-      getOrder: () => ORDER, getParts: () => PARTS,
+      getOrder: () => currentOrder(), getParts: () => PARTS,
       getSelected: () => selectedId,
     };
   }
