@@ -241,7 +241,7 @@ window.SO101 = window.SO101 || {};
       driveJoint, driveGripper, getJointVal,
       setAutoRotate, getAutoRotate, suspendAutoRotate, resumeAutoRotate, addFrameCallback,
       setGrid, setColors: arm.setColors, setMode: arm.setMode,
-      setBackground, getMode: arm.getMode,
+      setBackground, getBackground: () => ({ top: bgTop, bottom: bgBottom }), getMode: arm.getMode,
       render: () => renderer.render(scene, camera),
       _step: () => step(),
       setAnimSpeed: s => { animSpeed = s; }, setAutoRotateSpeed: s => { controls.autoRotateSpeed = s; },

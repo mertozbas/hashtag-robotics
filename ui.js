@@ -235,11 +235,37 @@
     }
   });
 
+  // ---------- dance: original synth groove + beat-synced background ----------
+  const groove = window.SO101.groove;
+  const DANCE_BG = [
+    ['#2a1240', '#0a0612'], ['#103048', '#06121a'], ['#3a1810', '#140806'],
+    ['#0f3026', '#06120e'], ['#301038', '#0a0612'], ['#13233f', '#060a12'],
+  ];
+  let danceBg = null;     // original bg to restore when the dance stops
+  let bgStep = 0;
+  if (groove) {
+    groove.onBeat(() => {
+      if (!danceBg) return;                 // only while dancing
+      const p = DANCE_BG[bgStep % DANCE_BG.length];
+      bgStep++;
+      V.setBackground(p[0], p[1]);
+    });
+  }
+
   ix.onMoveChange(name => {
     $$('.move-btn').forEach(b => b.classList.toggle('playing', b.dataset.move === name));
     const st = $('#stop-btn').querySelector('.state');
     st.textContent = name ? 'oynuyor' : 'hazır';
     $('#stop-btn').classList.toggle('on', !!name);
+
+    if (name === 'dance') {
+      if (!danceBg && V.getBackground) danceBg = V.getBackground();  // remember current bg
+      bgStep = 0;
+      if (groove) groove.start();
+    } else {
+      if (groove) groove.stop();
+      if (danceBg) { V.setBackground(danceBg.top, danceBg.bottom); danceBg = null; }
+    }
   });
 
   // ---------- hint: fade slightly after a while ----------
