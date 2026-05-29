@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hashtag Robotics · SO-101 Robot Kol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="scene-wrap">
+    <canvas id="scene"></canvas>
+    <div id="label-layer"></div>
+  </div>
+
+  <div id="loading">
+    <div class="load-mark"><b>#</b>Hashtag</div>
+    <div class="load-track"><div id="load-bar"></div></div>
+    <div id="load-txt">Gerçek 3D model hazırlanıyor…</div>
+  </div>
+
+  <header id="topbar">
+    <a class="brand" href="product.html" style="text-decoration:none;color:inherit">
+      <div class="mark"><b>#</b>Hashtag</div>
+      <div class="tag">Robotics</div>
+    </a>
+    <div class="top-right">
+      <div class="seg" id="mode-seg">
+        <button data-mode="follower" class="on">Follower</button>
+        <button data-mode="leader">Leader</button>
+      </div>
+      <a class="btn-cta" href="product.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Talep bırak</a>
+    </div>
+  </header>
+
+  <div id="product">
+    <h1 id="product-title">SO-101 Follower Arm</h1>
+    <p id="product-desc">5 eksenli, tutuculu açık kaynak masaüstü robot kol. Bir parçaya dokun, hareketleri izle. İlgini çekiyorsa talebini bırak — açıldığında ilk sen haberdar ol.</p>
+    <div class="specs">
+      <div class="chip"><b>5 DOF</b> + gripper</div>
+      <div class="chip">Feetech <b>STS3215</b></div>
+      <div class="chip"><b>3D-printed</b> gövde</div>
+    </div>
+    <a class="product-cta" href="product.html">
+      <span>İlgini bildir · talep formu</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+
+  <!-- PART INSPECTOR (appears when a part is selected) -->
+  <div id="inspector" aria-hidden="true">
+    <div class="insp-top">
+      <span class="insp-kicker" id="insp-type">Parça</span>
+      <button class="insp-close" id="insp-close" aria-label="Kapat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <h2 id="insp-name">Parça adı</h2>
+    <p id="insp-desc">Açıklama.</p>
+    <div class="insp-meta">
+      <div class="insp-cell"><span class="k">Malzeme</span><span class="v" id="insp-mat">·</span></div>
+      <div class="insp-cell"><span class="k">Adet</span><span class="v" id="insp-qty">·</span></div>
+    </div>
+    <div class="insp-tags" id="insp-tags"></div>
+    <div class="insp-nav">
+      <button id="insp-prev">‹ Önceki</button>
+      <span id="insp-count" class="insp-count">1 / 13</span>
+      <button id="insp-next">Sonraki ›</button>
+    </div>
+    <a class="insp-foot" href="product.html">
+      <span>Bu parça SO-101 kitiyle gelir</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+
+  <div id="dock">
+    <div class="tabs" id="tabs">
+      <button data-tab="moves" class="on">Hareket</button>
+      <button data-tab="parts">Parçalar</button>
+      <button data-tab="joints">Eklemler</button>
+      <button data-tab="view">Görünüm</button>
+    </div>
+
+    <!-- MOVES -->
+    <div class="panel on" data-panel="moves">
+      <div class="sub-label">Hazır hareketler</div>
+      <div class="move-list">
+        <button class="move-btn" data-move="wave">
+          <span class="move-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0M14 6V4a2 2 0 0 0-4 0v2M10 6a2 2 0 0 0-4 0v8M6 14l-1.5-1.5a2 2 0 0 0-3 3L7 21a6 6 0 0 0 5 2h2a6 6 0 0 0 6-6v-6a2 2 0 0 0-4 0"/></svg>
+          </span>
+          <span class="move-txt"><b>Selam Ver</b><small>El sallama hareketi</small></span>
+          <span class="move-play">▶</span>
+        </button>
+        <button class="move-btn" data-move="scan">
+          <span class="move-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M3 12h18"/></svg>
+          </span>
+          <span class="move-txt"><b>Tarama</b><small>Çevreyi tarar (döngü)</small></span>
+          <span class="move-play">▶</span>
+        </button>
+        <button class="move-btn" data-move="dance">
+          <span class="move-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13M9 9l12-2M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
+          </span>
+          <span class="move-txt"><b>Dans Et</b><small>Açık-kapalı ritmik figürler</small></span>
+          <span class="move-play">▶</span>
+        </button>
+      </div>
+      <button class="action-btn" id="stop-btn" style="margin-top:12px"><span>⏹ Durdur &amp; Home</span><span class="state">hazır</span></button>
+
+      <div class="sub-label" style="margin-top:20px">Statik pozlar</div>
+      <div class="pose-grid" id="pose-grid">
+        <button data-pose="home"><span class="pico">01</span> Home</button>
+        <button data-pose="reach"><span class="pico">02</span> Reach</button>
+        <button data-pose="grasp"><span class="pico">03</span> Grasp</button>
+        <button data-pose="lift"><span class="pico">04</span> Lift</button>
+      </div>
+      <div class="row" style="margin-top:16px">
+        <div class="lab"><span>Tutucu</span><span class="val" id="grip-val">açık</span></div>
+        <input type="range" id="grip-slider" min="0" max="100" value="40" />
+      </div>
+    </div>
+
+    <!-- PARTS -->
+    <div class="panel" data-panel="parts">
+      <div class="sub-label">Parçaya tıkla, modelde veya listede</div>
+      <div class="part-list" id="part-list"></div>
+    </div>
+
+    <!-- JOINTS -->
+    <div class="panel" data-panel="joints">
+      <div class="sub-label">Eklemleri elle oynat</div>
+      <div id="joint-rows"></div>
+    </div>
+
+    <!-- VIEW -->
+    <div class="panel" data-panel="view">
+      <button class="action-btn" id="auto-btn"><span>Otomatik döndür</span><span class="state">off</span></button>
+      <button class="action-btn" id="explode-btn"><span>Parçalara ayır · exploded</span><span class="state">off</span></button>
+      <div class="row" style="margin-top:-2px">
+        <input type="range" id="explode-slider" min="0" max="100" value="0" />
+      </div>
+      <button class="action-btn" id="labels-btn"><span>Parça etiketleri</span><span class="state">off</span></button>
+      <button class="action-btn" id="reset-btn"><span>Kamerayı sıfırla</span><span class="state">↺</span></button>
+
+      <div class="sub-label" style="margin-top:20px">Gövde rengi</div>
+      <div class="swatches" id="printed-swatches"></div>
+      <div class="sub-label" style="margin-top:16px">Vurgu rengi</div>
+      <div class="swatches" id="accent-swatches"></div>
+      <div class="sub-label" style="margin-top:16px">Arka plan</div>
+      <div class="swatches" id="bg-swatches"></div>
+    </div>
+  </div>
+
+  <div id="hint">
+    <span class="hint-item"><span class="hint-key">Sürükle</span> döndür</span>
+    <span class="hint-sep"></span>
+    <span class="hint-item"><span class="hint-key">Tekerlek</span> yakınlaş</span>
+    <span class="hint-sep"></span>
+    <span class="hint-item"><span class="hint-key">Sağ tık</span> kaydır</span>
+    <span class="hint-sep"></span>
+    <span class="hint-item hint-pulse"><span class="hint-key">Tıkla</span> parçayı seç</span>
+  </div>
+
+  <script src="https://unpkg.com/three@0.147.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://unpkg.com/three@0.147.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="parts.js"></script>
+  <script src="arm.js"></script>
+  <script src="arm_real.js"></script>
+  <script src="viewer.js"></script>
+  <script src="interactions.js"></script>
+  <script src="ui.js"></script>
+</body>
+</html>
