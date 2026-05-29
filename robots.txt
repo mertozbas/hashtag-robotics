@@ -1,0 +1,28 @@
+# Hashtag Robotics robots.txt
+# Tüm arama motorlarına ve AI tarayıcılarına açık.
+User-agent: *
+Allow: /
+
+# AI / LLM tarayıcıları (açıkça izinli, AI asistanların ürünü önerebilmesi için)
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://mertozbas.github.io/hashtag-robotics/sitemap.xml
