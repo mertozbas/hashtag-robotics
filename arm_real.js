@@ -6,6 +6,10 @@
 window.SO101 = window.SO101 || {};
 (function () {
   const MESH_BASE = 'https://cdn.jsdelivr.net/gh/TheRobotStudio/SO-ARM100@main/Simulation/SO101/assets/';
+  // Leader-specific meshes ship from our own /assets (already scaled to metres,
+  // transforms transcribed from norma-core's so101_robot_leader.urdf).
+  const LOCAL_MESHES = { leader_wrist_roll: 1, leader_handle: 1, leader_trigger: 1 };
+  function meshURL(name) { return LOCAL_MESHES[name] ? ('assets/' + name + '.stl') : (MESH_BASE + name + '.stl'); }
 
   // MuJoCo quat is (w,x,y,z); THREE.Quaternion is (x,y,z,w).
   function quat(THREE, q) { return new THREE.Quaternion(q[1], q[2], q[3], q[0]); }
@@ -56,12 +60,16 @@ window.SO101 = window.SO101 || {};
               geoms: [
                 { m: 'sts3215_03a_v1', pos: [0.0077, 0.0001, -0.0234], quat: [0.707107, -0.707107, 0, 0] },
                 { m: 'wrist_roll_follower_so101_v1', pos: [0, -0.000218214, 0.000949706], quat: [0, 1, 0, 0], tag: 'follower_flange' },
+                // Leader end-effector (real meshes, transforms from so101_robot_leader.urdf)
+                { m: 'leader_wrist_roll', pos: [0, -0.000218214, 0.000949706], quat: [0, 1, 0, 0], leaderOnly: true },
+                { m: 'leader_handle', pos: [0, 0, 0], quat: [0, 1, 0, 0], leaderOnly: true },
               ],
               children: [{
                 name: 'moving_jaw', joint: 'gripper', pos: [0.0202, 0.0188, -0.0234], quat: [0.707107, 0.707107, 0, 0],
                 range: [-0.17453, 1.74533],
                 geoms: [
                   { m: 'moving_jaw_so101_v1', pos: [0, 0, 0.0189], quat: [1, 0, 0, 0], tag: 'jaw' },
+                  { m: 'leader_trigger', pos: [0, 0, 0.0007], quat: [0, 0.2675, 0.9636, 0], leaderOnly: true },
                 ],
                 children: [],
               }],
@@ -87,7 +95,7 @@ window.SO101 = window.SO101 || {};
     function loadOne(name, tries) {
       return new Promise(resolve => {
         const attempt = left => {
-          loader.load(MESH_BASE + name + '.stl',
+          loader.load(meshURL(name),
             g => { geos[name] = g; done++; if (onProgress) onProgress(done, names.length); resolve(); },
             undefined,
             () => {
@@ -115,6 +123,7 @@ window.SO101 = window.SO101 || {};
     const frames = [];     // { obj, basePos } body frames for link separation
     const labelAnchors = [];
     const tagged = {};
+    const leaderParts = []; // leader-only meshes (handle/trigger/wrist), hidden in follower mode
 
     function buildBody(spec, parentPivot, depth) {
       const frame = new THREE.Group();
@@ -140,6 +149,12 @@ window.SO101 = window.SO101 || {};
         mesh.userData.partId = g.m;
         mesh.userData.kind = kind;
         pivot.add(mesh);
+        if (g.leaderOnly) {
+          // leader-only: not part of the inspectable/explodable follower part set
+          mesh.visible = false;
+          leaderParts.push(mesh);
+          return;
+        }
         parts.push({ obj: mesh, baseLocal: mesh.position.clone(), kind: kind, mat: meshMat });
         if (g.tag) tagged[g.tag] = mesh;
       });
@@ -175,58 +190,9 @@ window.SO101 = window.SO101 || {};
       labelAnchors.push({ name: id, label: label, obj: p.obj });
     });
 
-    // Leader vs Follower: kinematically identical; only the end-effector differs
-    // (follower = parallel gripper, leader = hand-held control handle + trigger).
-    // Build a credible leader handle parented to the wrist so it moves with the arm.
-    // The real SO-101 leader replaces the follower's parallel gripper with a
-    // hand-held pistol grip + trigger (see SO-ARM100 STL/SO101 Handle_SO101 +
-    // Trigger_SO101). Those STLs only exist in print orientation, not in the
-    // sim assembly frame this model uses, so we reconstruct the leader grip
-    // geometry to scale instead of dropping in a mis-placed mesh.
-    // Canonical local frame for the grip: +Z = barrel (points the way the gripper
-    // would extend), -Y = down (the held grip hangs there), +X = right. The group
-    // is rotated into place after the root frame is set up (orientLeaderHandle).
-    const leaderHandle = new THREE.Group();
-    (function buildHandle() {
-      const hMat = mat.printed.clone(); hMat.userData = { baseColor: hMat.color.clone() };
-      const padMat = new THREE.MeshStandardMaterial({ color: 0x18181c, roughness: 0.88, metalness: 0.06 });
-      const metalMat = new THREE.MeshStandardMaterial({ color: 0xb7b8bd, roughness: 0.32, metalness: 0.8 });
-
-      // mounting plate that bolts onto the wrist-roll output
-      const plate = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.052, 0.013), hMat);
-      plate.position.set(0, 0.004, 0.009);
-      const screwGeo = new THREE.CylinderGeometry(0.0035, 0.0035, 0.005, 12);
-      [[-0.019, 0.018], [0.019, 0.018], [-0.019, -0.015], [0.019, -0.015]].forEach(([sx, sy]) => {
-        const s = new THREE.Mesh(screwGeo, metalMat);
-        s.rotation.x = Math.PI / 2; s.position.set(sx, 0.004 + sy, 0.017);
-        leaderHandle.add(s);
-      });
-      // rounded front housing on the plate (where the grip meets the mount)
-      const housing = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.044, 0.03), hMat);
-      housing.position.set(0, -0.006, 0.024);
-      // hook loop at the top-back (as on the real leader)
-      const hook = new THREE.Mesh(new THREE.TorusGeometry(0.016, 0.0048, 12, 20, Math.PI * 1.45), hMat);
-      hook.position.set(0, 0.034, -0.006); hook.rotation.set(Math.PI / 2, 0, -0.6);
-      // ergonomic grip hanging down (-Y): a contoured handle the operator holds
-      const gripGroup = new THREE.Group();
-      const gripTop = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.019, 0.05, 24), padMat);
-      gripTop.position.set(0, -0.03, 0);
-      const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.019, 0.015, 0.07, 24), padMat);
-      grip.position.set(0, -0.082, 0.004); grip.rotation.x = 0.1;
-      const pommel = new THREE.Mesh(new THREE.SphereGeometry(0.0155, 18, 14), padMat);
-      pommel.position.set(0, -0.114, 0.008);
-      gripGroup.add(gripTop, grip, pommel);
-      gripGroup.position.set(0, -0.02, 0.02);
-      gripGroup.rotation.x = 0.08;
-      // trigger lever on the front of the grip
-      const trigger = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.038, 0.009), metalMat);
-      trigger.position.set(0, -0.04, 0.044); trigger.rotation.x = -0.35;
-
-      leaderHandle.add(plate, housing, hook, gripGroup, trigger);
-      leaderHandle.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
-      leaderHandle.visible = false;
-    })();
-    if (joints.wristRoll) joints.wristRoll.pivot.add(leaderHandle);
+    // Leader vs Follower: kinematically identical; only the end-effector differs.
+    // The real leader meshes (leader_wrist_roll / leader_handle / leader_trigger)
+    // are added to the SPEC above with leaderOnly:true and toggled in setMode.
 
     // ---- public API ----
     function setJoint(name, v) { const j = joints[name]; if (!j) return; j.val = Math.max(j.min, Math.min(j.max, v)); j.apply(j.val); }
@@ -258,7 +224,7 @@ window.SO101 = window.SO101 || {};
     function setMode(m) {
       mode = m;
       const lead = (m === 'leader');
-      leaderHandle.visible = lead;
+      leaderParts.forEach(o => { o.visible = lead; });
       if (tagged.jaw) tagged.jaw.visible = !lead;
       if (tagged.follower_flange) tagged.follower_flange.visible = !lead;
     }
@@ -285,26 +251,8 @@ window.SO101 = window.SO101 || {};
 
     root.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
 
-    // Orient the leader grip now that the world frame exists: barrel along the
-    // gripper-extension axis, grip hanging toward world-down at the home pose.
-    (function orientLeaderHandle() {
-      if (!joints.wristRoll) return;
-      root.updateMatrixWorld(true);
-      const qWorld = new THREE.Quaternion();
-      joints.wristRoll.pivot.getWorldQuaternion(qWorld);
-      const qInv = qWorld.clone().invert();
-      const f = new THREE.Vector3(0.0202, 0.0188, -0.0234).normalize(); // barrel dir (local)
-      let dn = new THREE.Vector3(0, -1, 0).applyQuaternion(qInv);       // world-down in local
-      dn.sub(f.clone().multiplyScalar(dn.dot(f)));                      // perpendicular to barrel
-      if (dn.lengthSq() < 1e-6) dn.set(0, -1, 0);
-      dn.normalize();
-      const up = dn.clone().negate();                                  // local +Y maps here
-      const x = new THREE.Vector3().crossVectors(up, f).normalize();   // local +X
-      leaderHandle.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, up, f));
-    })();
-
     return {
-      root, joints, parts, labelAnchors, mat, tagged, leaderHandle,
+      root, joints, parts, labelAnchors, mat, tagged, leaderParts,
       setJoint, setGripper, setColors, setMode, applyExplode,
       getGripper: () => gripperVal, getMode: () => mode,
       isReal: true,
