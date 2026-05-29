@@ -178,26 +178,44 @@ window.SO101 = window.SO101 || {};
     // Leader vs Follower: kinematically identical; only the end-effector differs
     // (follower = parallel gripper, leader = hand-held control handle + trigger).
     // Build a credible leader handle parented to the wrist so it moves with the arm.
+    // The real SO-101 leader replaces the follower's parallel gripper with a
+    // hand-held pistol grip + trigger (see SO-ARM100 STL/SO101 Handle_SO101 +
+    // Trigger_SO101). Those STLs only exist in print orientation, not in the
+    // sim assembly frame this model uses, so we reconstruct the leader grip
+    // geometry to scale instead of dropping in a mis-placed mesh.
     const leaderHandle = new THREE.Group();
     (function buildHandle() {
       const hMat = mat.printed.clone(); hMat.userData = { baseColor: hMat.color.clone() };
-      const padMat = new THREE.MeshStandardMaterial({ color: 0x141417, roughness: 0.82, metalness: 0.1 });
+      const padMat = new THREE.MeshStandardMaterial({ color: 0x141417, roughness: 0.85, metalness: 0.08 });
       const metalMat = new THREE.MeshStandardMaterial({ color: 0xb7b8bd, roughness: 0.3, metalness: 0.85 });
-      // built along +Z; the whole group is then rotated so +Z points outward
-      // (the direction the gripper jaws extend) so it reads as a held control grip.
-      const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.03, 0.02, 24), hMat);
-      collar.rotation.x = Math.PI / 2; collar.position.set(0, 0, 0.012);
-      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.017, 0.10, 24), hMat);
-      shaft.rotation.x = Math.PI / 2; shaft.position.set(0, 0, 0.075);
-      // T crossbar grip the operator holds
-      const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.019, 0.019, 0.15, 28), padMat);
-      grip.rotation.z = Math.PI / 2; grip.position.set(0, 0, 0.135);
-      const cap1 = new THREE.Mesh(new THREE.SphereGeometry(0.021, 18, 14), hMat); cap1.position.set(0.075, 0, 0.135);
-      const cap2 = new THREE.Mesh(new THREE.SphereGeometry(0.021, 18, 14), hMat); cap2.position.set(-0.075, 0, 0.135);
-      // trigger lever
-      const trigger = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.026, 0.011), metalMat);
-      trigger.position.set(0, -0.026, 0.10); trigger.rotation.x = 0.35;
-      leaderHandle.add(collar, shaft, grip, cap1, cap2, trigger);
+      // Built along +Z (the axis that, after the rotation below, points the way
+      // the gripper jaws extend). The grip hangs off this barrel like a pistol grip.
+
+      // mounting collar onto the wrist-roll flange
+      const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.027, 0.031, 0.018, 24), hMat);
+      collar.rotation.x = Math.PI / 2; collar.position.set(0, 0, 0.009);
+      // short barrel out of the wrist
+      const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.021, 0.023, 0.052, 24), hMat);
+      barrel.rotation.x = Math.PI / 2; barrel.position.set(0, 0, 0.044);
+      // nose cap
+      const nose = new THREE.Mesh(new THREE.SphereGeometry(0.021, 20, 14), hMat);
+      nose.position.set(0, 0, 0.072);
+
+      // ergonomic grip the operator holds: hangs below the barrel, tilted back
+      const gripGroup = new THREE.Group();
+      const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.0165, 0.014, 0.11, 24), padMat);
+      grip.position.set(0, -0.055, 0);
+      const pommel = new THREE.Mesh(new THREE.SphereGeometry(0.015, 18, 14), padMat);
+      pommel.position.set(0, -0.108, 0);
+      gripGroup.add(grip, pommel);
+      gripGroup.position.set(0, -0.014, 0.05);
+      gripGroup.rotation.x = -0.32;
+
+      // trigger lever in front of the grip
+      const trigger = new THREE.Mesh(new THREE.BoxGeometry(0.013, 0.032, 0.006), metalMat);
+      trigger.position.set(0, -0.026, 0.066); trigger.rotation.x = 0.5;
+
+      leaderHandle.add(collar, barrel, nose, gripGroup, trigger);
       leaderHandle.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
       // orient +Z toward where the jaws extend (in the gripper pivot's local frame)
       const dir = new THREE.Vector3(0.0202, 0.0188, -0.0234).normalize();

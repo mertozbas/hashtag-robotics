@@ -141,6 +141,9 @@ body {
 /* real images inside placeholders */
 .imgph.has-img { background: #0b0c10; }
 .imgph.has-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+/* renders / logos: show the whole part, padded on the dark panel */
+.imgph.has-img.contain img { object-fit: contain; padding: 16px; }
+.imgph.has-img.on-light { background: #f3f4f6; }
 
 /* ---------- section frame ---------- */
 section { position: relative; }
