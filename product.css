@@ -322,6 +322,26 @@ footer a:hover { color: var(--txt); }
 .modal-form.hide { display: none; }
 
 @media (max-width: 760px) {
-  .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+  html, body { overflow-x: hidden; }
+  .wrap { padding: 0 20px; }
+  .sec { padding: 48px 0; }
+  #nav .wrap { height: 58px; }
+  .hero { padding: 52px 0 36px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+  .hero h1 { font-size: clamp(30px, 8.2vw, 46px); margin-bottom: 18px; }
+  .hero .lead { font-size: 15.5px; margin-bottom: 24px; }
+  .hero-actions { gap: 12px; }
+  .hero-actions .btn-primary, .hero-actions .btn-ghost { flex: 1 1 auto; justify-content: center; }
+  .eyebrow { font-size: 10px; margin-bottom: 18px; }
+  .sec-head { margin-bottom: 28px; }
   .field-row { grid-template-columns: 1fr; }
+  .modal-card { padding: 24px 20px; border-radius: 20px; }
+  .modal-card h2 { font-size: 22px; }
+  .cta-band { padding: 40px 22px; }
 }
+@media (max-width: 420px) {
+  .wrap { padding: 0 16px; }
+  .hero h1 { font-size: 26px; }
+  .specs-grid { gap: 10px; }
+}
+.hero h1 { overflow-wrap: break-word; }
