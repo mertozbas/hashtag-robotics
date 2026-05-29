@@ -3,7 +3,7 @@
   'use strict';
 
   // ===================================================================
-  //  TALEP FORMU AYARI — Google Form bağlantısı
+  //  TALEP FORMU AYARI · Google Form baglantisi
   //  ----------------------------------------------------------------
   //  Aşağıdaki FORM_URL'e Google Form'unun PAYLAŞIM LİNKİNİ yapıştır
   //  (Gönder → bağlantı simgesi → kopyalanan link, ör. https://forms.gle/XXXX).
