@@ -10,7 +10,7 @@
   //  Dolu olduğunda tüm "Talep bırak" butonları formu yeni sekmede açar.
   //  Boş bırakılırsa site içindeki yedek form (modal) çalışır.
   // ===================================================================
-  const FORM_URL = ''; // <-- GOOGLE FORM LİNKİNİ BURAYA YAPIŞTIR, ör: 'https://forms.gle/XXXXXXXX'
+  const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScO4in_6Jrve0iJIJcfVSPwCokAixbwtOU3HMFkx48ljRqHPQ/viewform';
   const FORM_POST = ''; // e.g. 'https://docs.google.com/forms/d/e/FORM_ID/formResponse'
   const ENTRY = { name: '', email: '', country: '', use: '', config: '', qty: '', note: '' };
 
