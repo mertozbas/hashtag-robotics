@@ -308,7 +308,7 @@ input[type="range"]::-moz-range-thumb {
 .dock-toggle { display: none; }
 
 @media (max-width: 920px) {
-  /* touch-irrelevant mouse hint ("scroll to zoom" etc.) — hide on mobile */
+  /* touch-irrelevant mouse hint ("scroll to zoom" etc.), hidden on mobile */
   #hint { display: none; }
 
   /* control panel becomes a collapsible bottom sheet so it never blocks the model */
