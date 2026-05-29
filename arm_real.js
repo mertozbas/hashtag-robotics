@@ -183,43 +183,47 @@ window.SO101 = window.SO101 || {};
     // Trigger_SO101). Those STLs only exist in print orientation, not in the
     // sim assembly frame this model uses, so we reconstruct the leader grip
     // geometry to scale instead of dropping in a mis-placed mesh.
+    // Canonical local frame for the grip: +Z = barrel (points the way the gripper
+    // would extend), -Y = down (the held grip hangs there), +X = right. The group
+    // is rotated into place after the root frame is set up (orientLeaderHandle).
     const leaderHandle = new THREE.Group();
     (function buildHandle() {
       const hMat = mat.printed.clone(); hMat.userData = { baseColor: hMat.color.clone() };
-      const padMat = new THREE.MeshStandardMaterial({ color: 0x141417, roughness: 0.85, metalness: 0.08 });
-      const metalMat = new THREE.MeshStandardMaterial({ color: 0xb7b8bd, roughness: 0.3, metalness: 0.85 });
-      // Built along +Z (the axis that, after the rotation below, points the way
-      // the gripper jaws extend). The grip hangs off this barrel like a pistol grip.
+      const padMat = new THREE.MeshStandardMaterial({ color: 0x18181c, roughness: 0.88, metalness: 0.06 });
+      const metalMat = new THREE.MeshStandardMaterial({ color: 0xb7b8bd, roughness: 0.32, metalness: 0.8 });
 
-      // mounting collar onto the wrist-roll flange
-      const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.027, 0.031, 0.018, 24), hMat);
-      collar.rotation.x = Math.PI / 2; collar.position.set(0, 0, 0.009);
-      // short barrel out of the wrist
-      const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.021, 0.023, 0.052, 24), hMat);
-      barrel.rotation.x = Math.PI / 2; barrel.position.set(0, 0, 0.044);
-      // nose cap
-      const nose = new THREE.Mesh(new THREE.SphereGeometry(0.021, 20, 14), hMat);
-      nose.position.set(0, 0, 0.072);
-
-      // ergonomic grip the operator holds: hangs below the barrel, tilted back
+      // mounting plate that bolts onto the wrist-roll output
+      const plate = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.052, 0.013), hMat);
+      plate.position.set(0, 0.004, 0.009);
+      const screwGeo = new THREE.CylinderGeometry(0.0035, 0.0035, 0.005, 12);
+      [[-0.019, 0.018], [0.019, 0.018], [-0.019, -0.015], [0.019, -0.015]].forEach(([sx, sy]) => {
+        const s = new THREE.Mesh(screwGeo, metalMat);
+        s.rotation.x = Math.PI / 2; s.position.set(sx, 0.004 + sy, 0.017);
+        leaderHandle.add(s);
+      });
+      // rounded front housing on the plate (where the grip meets the mount)
+      const housing = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.044, 0.03), hMat);
+      housing.position.set(0, -0.006, 0.024);
+      // hook loop at the top-back (as on the real leader)
+      const hook = new THREE.Mesh(new THREE.TorusGeometry(0.016, 0.0048, 12, 20, Math.PI * 1.45), hMat);
+      hook.position.set(0, 0.034, -0.006); hook.rotation.set(Math.PI / 2, 0, -0.6);
+      // ergonomic grip hanging down (-Y): a contoured handle the operator holds
       const gripGroup = new THREE.Group();
-      const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.0165, 0.014, 0.11, 24), padMat);
-      grip.position.set(0, -0.055, 0);
-      const pommel = new THREE.Mesh(new THREE.SphereGeometry(0.015, 18, 14), padMat);
-      pommel.position.set(0, -0.108, 0);
-      gripGroup.add(grip, pommel);
-      gripGroup.position.set(0, -0.014, 0.05);
-      gripGroup.rotation.x = -0.32;
+      const gripTop = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.019, 0.05, 24), padMat);
+      gripTop.position.set(0, -0.03, 0);
+      const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.019, 0.015, 0.07, 24), padMat);
+      grip.position.set(0, -0.082, 0.004); grip.rotation.x = 0.1;
+      const pommel = new THREE.Mesh(new THREE.SphereGeometry(0.0155, 18, 14), padMat);
+      pommel.position.set(0, -0.114, 0.008);
+      gripGroup.add(gripTop, grip, pommel);
+      gripGroup.position.set(0, -0.02, 0.02);
+      gripGroup.rotation.x = 0.08;
+      // trigger lever on the front of the grip
+      const trigger = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.038, 0.009), metalMat);
+      trigger.position.set(0, -0.04, 0.044); trigger.rotation.x = -0.35;
 
-      // trigger lever in front of the grip
-      const trigger = new THREE.Mesh(new THREE.BoxGeometry(0.013, 0.032, 0.006), metalMat);
-      trigger.position.set(0, -0.026, 0.066); trigger.rotation.x = 0.5;
-
-      leaderHandle.add(collar, barrel, nose, gripGroup, trigger);
+      leaderHandle.add(plate, housing, hook, gripGroup, trigger);
       leaderHandle.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
-      // orient +Z toward where the jaws extend (in the gripper pivot's local frame)
-      const dir = new THREE.Vector3(0.0202, 0.0188, -0.0234).normalize();
-      leaderHandle.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
       leaderHandle.visible = false;
     })();
     if (joints.wristRoll) joints.wristRoll.pivot.add(leaderHandle);
@@ -280,6 +284,24 @@ window.SO101 = window.SO101 || {};
     root.scale.set(S, S, S);
 
     root.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+
+    // Orient the leader grip now that the world frame exists: barrel along the
+    // gripper-extension axis, grip hanging toward world-down at the home pose.
+    (function orientLeaderHandle() {
+      if (!joints.wristRoll) return;
+      root.updateMatrixWorld(true);
+      const qWorld = new THREE.Quaternion();
+      joints.wristRoll.pivot.getWorldQuaternion(qWorld);
+      const qInv = qWorld.clone().invert();
+      const f = new THREE.Vector3(0.0202, 0.0188, -0.0234).normalize(); // barrel dir (local)
+      let dn = new THREE.Vector3(0, -1, 0).applyQuaternion(qInv);       // world-down in local
+      dn.sub(f.clone().multiplyScalar(dn.dot(f)));                      // perpendicular to barrel
+      if (dn.lengthSq() < 1e-6) dn.set(0, -1, 0);
+      dn.normalize();
+      const up = dn.clone().negate();                                  // local +Y maps here
+      const x = new THREE.Vector3().crossVectors(up, f).normalize();   // local +X
+      leaderHandle.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, up, f));
+    })();
 
     return {
       root, joints, parts, labelAnchors, mat, tagged, leaderHandle,
