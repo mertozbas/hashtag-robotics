@@ -9,14 +9,17 @@
 <meta name="author" content="Hashtag Robotics" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="theme-color" content="#0a0b0e" />
-<link rel="canonical" href="https://labs.hashtagworldcompany.com/product.html" />
+<link rel="canonical" href="https://labs.hashtagworldcompany.com/product" />
+<link rel="alternate" hreflang="tr" href="https://labs.hashtagworldcompany.com/product" />
+<link rel="alternate" hreflang="x-default" href="https://labs.hashtagworldcompany.com/product" />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
 <!-- Open Graph -->
 <meta property="og:type" content="product" />
 <meta property="og:site_name" content="Hashtag Robotics" />
 <meta property="og:locale" content="tr_TR" />
 <meta property="og:title" content="SO-101 Robot Kol Ön Satış · Hashtag Robotics" />
 <meta property="og:description" content="Açık kaynak SO-101 robot kol, kurulu ve test edilmiş. Leader + follower birlikte. Türkiye'de ön satışta, ücretsiz kaydol." />
-<meta property="og:url" content="https://labs.hashtagworldcompany.com/product.html" />
+<meta property="og:url" content="https://labs.hashtagworldcompany.com/product" />
 <meta property="og:image" content="https://labs.hashtagworldcompany.com/assets/og-cover.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -39,13 +42,19 @@
       "name": "Hashtag Robotics",
       "url": "https://labs.hashtagworldcompany.com/",
       "logo": "https://labs.hashtagworldcompany.com/assets/og-cover.png",
-      "description": "Türkiye merkezli açık kaynak robotik üreticisi. Robot kollardan humanoidlere robot platformları üretir ve satar.",
+      "description": "Türkiye merkezli açık kaynak robotik üreticisi. Robot kollardan humanoidlere, mühendislik kalitesinde robot platformları üretir ve satar.",
       "areaServed": "TR",
-      "parentOrganization": { "@type": "Organization", "name": "Hashtag World Company" }
+      "parentOrganization": { "@type": "Organization", "name": "Hashtag World Company" },
+      "knowsAbout": ["açık kaynak robotik", "robot kol", "SO-101", "LeRobot", "humanoid robot", "teleoperasyon", "imitation learning", "STEM robotik"],
+      "sameAs": ["https://github.com/mertozbas/hashtag-robotics"]
     },
     {
       "@type": "Product",
+      "@id": "https://labs.hashtagworldcompany.com/product#product",
       "name": "SO-101 Açık Kaynak Robot Kol",
+      "alternateName": ["SO-ARM101", "SO-ARM100", "SO101", "SO-101 Follower Arm"],
+      "sku": "HR-SO101-LF",
+      "mpn": "SO-101",
       "image": [
         "https://labs.hashtagworldcompany.com/assets/og-cover.png",
         "https://labs.hashtagworldcompany.com/assets/hero-follower.webp",
@@ -56,7 +65,7 @@
       "manufacturer": { "@id": "https://labs.hashtagworldcompany.com/#org" },
       "category": "Robot kol / Robotik",
       "material": "PLA / PETG · 3D baskı",
-      "url": "https://labs.hashtagworldcompany.com/product.html",
+      "url": "https://labs.hashtagworldcompany.com/product",
       "additionalProperty": [
         { "@type": "PropertyValue", "name": "Eksen sayısı", "value": "5 DOF + gripper" },
         { "@type": "PropertyValue", "name": "Aktüatör", "value": "Feetech STS3215 seri bus servo" },
@@ -67,7 +76,9 @@
         "@type": "Offer",
         "availability": "https://schema.org/PreOrder",
         "priceCurrency": "TRY",
-        "url": "https://labs.hashtagworldcompany.com/product.html",
+        "itemCondition": "https://schema.org/NewCondition",
+        "areaServed": "TR",
+        "url": "https://labs.hashtagworldcompany.com/product",
         "seller": { "@id": "https://labs.hashtagworldcompany.com/#org" }
       }
     },
@@ -75,7 +86,7 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Ana sayfa", "item": "https://labs.hashtagworldcompany.com/" },
-        { "@type": "ListItem", "position": 2, "name": "SO-101 Robot Kol", "item": "https://labs.hashtagworldcompany.com/product.html" }
+        { "@type": "ListItem", "position": 2, "name": "SO-101 Robot Kol", "item": "https://labs.hashtagworldcompany.com/product" }
       ]
     },
     {
@@ -101,7 +112,7 @@
   <!-- NAV -->
   <nav id="nav">
     <div class="wrap">
-      <a class="brand" href="index.html">
+      <a class="brand" href="/">
         <span class="mark"><b>#</b>Hashtag</span>
         <span class="tag">Robotics</span>
       </a>
@@ -109,7 +120,7 @@
         <a href="#ozellikler">Özellikler</a>
         <a href="#parcalar">Parçalar</a>
         <a href="#urunler">Ürünler</a>
-        <a class="nav-back" href="index.html">
+        <a class="nav-back" href="/">
           3D Görünüm
         </a>
         <button class="nav-cta" data-reserve>Ön satış</button>
@@ -122,14 +133,14 @@
     <div class="wrap hero-grid">
       <div class="hero-copy reveal">
         <span class="eyebrow"><span class="dot"></span> Hashtag Robotics · Türkiye merkezli robotik teknolojileri</span>
-        <h1>Masaüstünde <em>gerçek</em> robotik.</h1>
+        <h1>SO-101: masaüstünde <em>gerçek</em> robotik.</h1>
         <p class="lead">Hashtag Robotics, açık robotik ekosistemini temel alan robot platformlarını mühendislik kalitesinde üretir ve kullanıma sunar. İlk platformumuz <b>SO-101</b>: 5 eksenli, tutuculu, LeRobot uyumlu masaüstü robot kol. <b>Leader + follower birlikte, kurulu ve test edilmiş</b> gelir; kutudan çıkar çıkmaz elektriğe tak ve kullanmaya başla. İlk parti için ön satış kaydı açıldı.</p>
         <div class="hero-actions">
           <button class="btn-primary" data-reserve>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
             Ön satışa kaydol
           </button>
-          <a class="btn-ghost" href="index.html">
+          <a class="btn-ghost" href="/">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5 12 2 3 7.5v9L12 22l9-5.5v-9Z"/><path d="m3 7.5 9 5.5 9-5.5M12 22v-9"/></svg>
             3D'de incele
           </a>
@@ -344,7 +355,7 @@
     <div class="wrap">
       <div class="fnote">© <span id="year">2026</span> Hashtag Robotics · Hashtag World Company · Açık kaynak robotik</div>
       <div style="display:flex; gap:22px;">
-        <a href="index.html">3D Görünüm</a>
+        <a href="/">3D Görünüm</a>
         <a href="#" data-reserve>Ön satış</a>
         <a href="#ozellikler">Özellikler</a>
       </div>

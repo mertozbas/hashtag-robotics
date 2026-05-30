@@ -31,7 +31,7 @@
     const m = b.dataset.mode;
     V.setMode(m);
     if (window.SO101.ix) { window.SO101.ix.deselect(); buildPartList(); }
-    $('#product-title').textContent = m === 'follower' ? 'SO-101 Follower Arm' : 'SO-101 Leader Arm';
+    $('#product-title').textContent = m === 'follower' ? 'SO-101 Açık Kaynak Robot Kol' : 'SO-101 Leader Kol';
     $('#product-desc').textContent = m === 'follower'
       ? '5 eksenli, tutuculu, LeRobot uyumlu masaüstü robot kol. Kurulu ve test edilmiş gelir; elektriğe tak, kullanmaya başla.'
       : 'Operatörün elle yönlendirdiği kontrolcü kol; follower kola birebir hareket aktarır. SO-101 ön satışında leader + follower birlikte gelir.';
