@@ -1,2 +1,12 @@
 .DS_Store
 Thumbs.db
+
+# ruflo / claude-flow runtime state (hooks may write these into the dir; never deploy them)
+.claude-flow/
+.swarm/
+*.db
+*.db-shm
+*.db-wal
+.wrangler/
+.dev.vars*
+.env*
