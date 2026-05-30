@@ -25,4 +25,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://mertozbas.github.io/hashtag-robotics/sitemap.xml
+Sitemap: https://labs.hashtagworldcompany.com/sitemap.xml
