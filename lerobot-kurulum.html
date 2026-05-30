@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LeRobot ile SO-101 Kurulumu ve Teleoperasyon Rehberi | Hashtag Robotics</title>
+<meta name="description" content="SO-101 robot kolunu Hugging Face LeRobot ile kurma rehberi: Python ortamı, pip install lerobot, follower ve leader kolların USB bağlantısı, Feetech STS3215 servo kalibrasyonu, teleoperasyon ve taklit öğrenme. Hashtag Robotics kolları kurulu ve kalibre teslim eder." />
+<meta name="keywords" content="LeRobot kurulum, SO-101 LeRobot setup, teleoperasyon nasıl, Feetech STS3215, SO-101 kurulum, SO-ARM100, LeRobot teleoperasyon, taklit öğrenme, Hugging Face LeRobot, robot kol kalibrasyon" />
+<meta name="author" content="Hashtag Robotics" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#0a0b0e" />
+<link rel="canonical" href="https://labs.hashtagworldcompany.com/lerobot-kurulum" />
+<link rel="alternate" hreflang="tr" href="https://labs.hashtagworldcompany.com/lerobot-kurulum" />
+<link rel="alternate" hreflang="x-default" href="https://labs.hashtagworldcompany.com/lerobot-kurulum" />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Hashtag Robotics" />
+<meta property="og:locale" content="tr_TR" />
+<meta property="og:title" content="LeRobot ile SO-101 Kurulumu ve Teleoperasyon Rehberi" />
+<meta property="og:description" content="Python, pip install lerobot, follower + leader USB bağlantısı, Feetech STS3215 kalibrasyonu, teleoperasyon ve taklit öğrenme. Adım adım SO-101 kurulum rehberi." />
+<meta property="og:url" content="https://labs.hashtagworldcompany.com/lerobot-kurulum" />
+<meta property="og:image" content="https://labs.hashtagworldcompany.com/assets/og-cover.png" />
+<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="LeRobot ile SO-101 Kurulumu ve Teleoperasyon Rehberi" /><meta name="twitter:description" content="Adım adım: Python ortamı, pip install lerobot, USB bağlantısı, Feetech STS3215 kalibrasyonu, teleoperasyon ve taklit öğrenme." />
+<meta name="twitter:image" content="https://labs.hashtagworldcompany.com/assets/og-cover.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/product.css" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://labs.hashtagworldcompany.com/#org",
+      "name": "Hashtag Robotics",
+      "url": "https://labs.hashtagworldcompany.com/",
+      "logo": "https://labs.hashtagworldcompany.com/assets/og-cover.png",
+      "parentOrganization": "Hashtag World Company"
+    },
+    {
+      "@type": "HowTo",
+      "name": "LeRobot ile SO-101 Kurulumu ve Teleoperasyon",
+      "description": "SO-101 robot kolunu Hugging Face LeRobot ile kurma, Feetech STS3215 servolarını kalibre etme, teleoperasyon başlatma ve taklit öğrenme için veri toplama adımları.",
+      "inLanguage": "tr",
+      "image": "https://labs.hashtagworldcompany.com/assets/og-cover.png",
+      "publisher": { "@id": "https://labs.hashtagworldcompany.com/#org" },
+      "tool": [
+        { "@type": "HowToTool", "name": "SO-101 follower kol" },
+        { "@type": "HowToTool", "name": "SO-101 leader kol" },
+        { "@type": "HowToTool", "name": "Feetech STS3215 servo bus kartı" },
+        { "@type": "HowToTool", "name": "USB kablo" }
+      ],
+      "supply": [
+        { "@type": "HowToSupply", "name": "Python 3" },
+        { "@type": "HowToSupply", "name": "pip" },
+        { "@type": "HowToSupply", "name": "LeRobot (lerobot)" }
+      ],
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Gereksinimler ve LeRobot kurulumu",
+          "url": "https://labs.hashtagworldcompany.com/lerobot-kurulum#adim-1",
+          "text": "Python 3 ve pip kurulu olsun. Sanal ortam oluşturup pip install lerobot komutuyla LeRobot kütüphanesini kurun."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Donanımı bağla",
+          "url": "https://labs.hashtagworldcompany.com/lerobot-kurulum#adim-2",
+          "text": "Follower ve leader kolları USB üzerinden bilgisayara bağlayın. Feetech STS3215 servoları servo bus kartına ve güç kaynağına takın."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Portları ve motorları tanımla, kalibre et",
+          "url": "https://labs.hashtagworldcompany.com/lerobot-kurulum#adim-3",
+          "text": "Seri portları tespit edin, leader ve follower kolların motorlarını tanımlayın ve LeRobot kalibrasyon adımını çalıştırın."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Teleoperasyonu başlat",
+          "url": "https://labs.hashtagworldcompany.com/lerobot-kurulum#adim-4",
+          "text": "Teleoperasyonu başlatın; leader kolu hareket ettirin, follower kol hareketleri gerçek zamanlı takip etsin."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Veri topla ve taklit öğrenme eğit",
+          "url": "https://labs.hashtagworldcompany.com/lerobot-kurulum#adim-5",
+          "text": "Teleoperasyon sırasında bir görev için kayıt yaparak veri seti toplayın, ardından taklit öğrenme politikası eğitip değerlendirin."
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Hashtag Robotics", "item": "https://labs.hashtagworldcompany.com/" },
+        { "@type": "ListItem", "position": 2, "name": "LeRobot Kurulum", "item": "https://labs.hashtagworldcompany.com/lerobot-kurulum" }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .article {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 120px 28px 40px;
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    color: #e9eaee;
+    line-height: 1.7;
+  }
+  .article .crumbs {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9a9ca6;
+    margin-bottom: 22px;
+  }
+  .article .crumbs a { color: #9a9ca6; text-decoration: none; }
+  .article .crumbs a:hover { color: #e8893c; }
+  .article .crumbs span { color: #5f636f; margin: 0 8px; }
+  .article h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin: 0 0 18px;
+  }
+  .article .standfirst {
+    font-size: 18px;
+    color: #9a9ca6;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .article h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: clamp(22px, 3.2vw, 30px);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 48px 0 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+  .article h3 {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    margin: 30px 0 10px;
+  }
+  .article p { margin: 0 0 16px; font-size: 16.5px; }
+  .article ul, .article ol { margin: 0 0 18px; padding-left: 22px; }
+  .article li { margin-bottom: 9px; font-size: 16.5px; }
+  .article a { color: #e8893c; text-decoration: none; border-bottom: 1px solid rgba(232,137,60,.35); }
+  .article a:hover { border-bottom-color: #e8893c; }
+  .article strong { color: #f2f3f6; font-weight: 600; }
+  .answer-box {
+    border-left: 3px solid #e8893c;
+    background: rgba(232,137,60,.08);
+    border-radius: 0 14px 14px 0;
+    padding: 20px 24px;
+    margin: 0 0 34px;
+  }
+  .answer-box p { margin: 0; font-size: 17px; line-height: 1.65; }
+  .answer-box .label {
+    display: block;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #e8893c;
+    margin-bottom: 10px;
+  }
+  .article pre {
+    background: #06080f;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    margin: 0 0 18px;
+  }
+  .article pre code {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #e9eaee;
+    background: none;
+    white-space: pre;
+  }
+  .article code {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.88em;
+    color: #e8893c;
+    background: rgba(255,255,255,.05);
+    padding: 2px 6px;
+    border-radius: 5px;
+  }
+  .article pre code .cmt { color: #5f636f; }
+  .step-card {
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+    border-radius: 16px;
+    padding: 26px 26px 8px;
+    margin: 0 0 18px;
+  }
+  .step-card .step-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #e8893c;
+    margin-bottom: 8px;
+  }
+  .step-card .step-tag b {
+    width: 26px; height: 26px; border-radius: 8px;
+    background: #e8893c; color: #07090f;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 14px;
+  }
+  .step-card h2 {
+    border-top: 0;
+    padding-top: 0;
+    margin: 0 0 12px;
+    font-size: clamp(20px, 2.8vw, 26px);
+  }
+  .note {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #9a9ca6;
+    border-left: 2px solid rgba(255,255,255,.16);
+    padding: 4px 0 4px 14px;
+    margin: 0 0 18px;
+  }
+  .note b { color: #e9eaee; font-weight: 500; }
+  .article table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 22px;
+    font-size: 14.5px;
+  }
+  .article th, .article td {
+    border: 1px solid rgba(255,255,255,.1);
+    padding: 12px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .article th {
+    background: rgba(255,255,255,.045);
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    color: #f2f3f6;
+  }
+  .article td { color: #c4c6cd; }
+  @media (max-width: 560px) {
+    .article { padding: 100px 20px 30px; }
+    .step-card { padding: 22px 20px 6px; }
+    .article pre { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+<div id="space"></div>
+<div id="stars"></div>
+
+<nav id="nav"><div class="wrap">
+  <a class="brand" href="/"><span class="mark"><b>#</b>Hashtag</span><span class="tag">Robotics</span></a>
+  <div class="nav-links">
+    <a href="/so101-nedir">SO-101 Nedir</a>
+    <a href="/so101-karsilastirma">Karşılaştırma</a>
+    <a href="/lerobot-kurulum">LeRobot</a>
+    <a href="/sss">SSS</a>
+    <a class="nav-back" href="/en/">EN</a>
+    <a class="nav-cta" href="/product">Ön satış / Pre-order</a>
+  </div>
+</div></nav>
+
+<main>
+  <article class="article">
+    <div class="crumbs">
+      <a href="/">Hashtag Robotics</a><span>·</span>LeRobot Kurulum
+    </div>
+
+    <h1>LeRobot ile SO-101 Kurulumu ve Teleoperasyon Rehberi</h1>
+    <p class="standfirst">SO-101 robot kolunu Hugging Face LeRobot ile çalıştırmak için Python ortamından teleoperasyona, oradan taklit öğrenmeye kadar adım adım yol haritası.</p>
+
+    <div class="answer-box">
+      <span class="label">Kısa cevap</span>
+      <p>SO-101'i LeRobot ile kurmak için önce Python ve <code>pip install lerobot</code> ile kütüphaneyi kurun, follower ve leader kolları USB'den bağlayın, seri portları ve Feetech STS3215 motorlarını tanımlayıp kalibre edin, sonra teleoperasyonu başlatın. Hashtag Robotics kolu kurulu ve kalibre teslim ettiği için bu adımlar çok daha hızlı tamamlanır.</p>
+    </div>
+
+    <p>LeRobot, Hugging Face'in açık kaynak robotik kütüphanesidir ve SO-101 (açık <strong>SO-ARM100 / SO-ARM101</strong> tasarımı temelli) ile tam uyumludur. Python tabanlı olduğu için teleoperasyon, veri toplama, taklit öğrenme ve politika eğitimini aynı araç setiyle yapabilirsiniz. Bu sayfa genel bir akış sunar; tam ve güncel komutlar için her zaman resmi <a href="https://huggingface.co/docs/lerobot" rel="noopener">LeRobot dokümantasyonunu</a> ve <a href="https://github.com/huggingface/lerobot" rel="noopener">GitHub deposunu</a> takip edin.</p>
+
+    <p>SO-101, <strong>leader</strong> (operatörün elle yönlendirdiği kontrol kolu) ve <strong>follower</strong> (görevi yapan kol) ikilisinden oluşur. 5 eksen artı paralel tutucu (toplam 5 DOF + gripper) ile çalışır ve gövdesi 3D baskı (PLA/PETG) PLA/PETG malzemedir.</p>
+
+    <h2>Başlamadan önce</h2>
+    <ul>
+      <li><strong>İşletim sistemi:</strong> LeRobot, Python kurabildiğiniz Linux, macOS ve Windows ortamlarında çalışır.</li>
+      <li><strong>Donanım:</strong> Bir SO-101 follower kol, bir SO-101 leader kol, Feetech STS3215 seri bus akıllı servolar, servo bus kartı ve güç kaynağı.</li>
+      <li><strong>Bağlantı:</strong> Her kol için bir USB portu.</li>
+      <li><strong>Eğitim için:</strong> Taklit öğrenme politikası eğitmek istiyorsanız bir GPU işleri ciddi biçimde hızlandırır, ancak veri toplama için zorunlu değildir.</li>
+    </ul>
+
+    <div class="note">
+      <b>Hashtag Robotics avantajı:</b> Kollarımız kurulu ve test edilmiş, motorlar kimliklendirilmiş ve kalibre edilmiş halde gelir. Kit montajıyla uğraşmadığınız için doğrudan yazılım kurulumuna ve teleoperasyona geçersiniz.
+    </div>
+
+    <h2>Adım adım kurulum</h2>
+
+    <div class="step-card" id="adim-1">
+      <span class="step-tag"><b>1</b> Gereksinimler ve LeRobot kurulumu</span>
+      <h2>Python ortamı ve pip install lerobot</h2>
+      <p>Python 3'ün ve <code>pip</code>'in kurulu olduğundan emin olun. Bağımlılıkları temiz tutmak için bir sanal ortam oluşturup içinde LeRobot'u kurun.</p>
+      <pre><code><span class="cmt"># Python sürümünü doğrula</span>
+python --version
+
+<span class="cmt"># İzole bir sanal ortam oluştur ve etkinleştir</span>
+python -m venv lerobot-env
+source lerobot-env/bin/activate   <span class="cmt"># Windows: lerobot-env\Scripts\activate</span>
+
+<span class="cmt"># LeRobot'u kur</span>
+pip install lerobot</code></pre>
+      <p>Bazı sürümlerde Feetech servoları için ek bir donanım eklentisinin kurulması gerekebilir. Kurulumdan sonra <code>import lerobot</code> çalışıyorsa kütüphane hazırdır. Kesin paket adları ve eklentiler için resmi dokümantasyona bakın.</p>
+    </div>
+
+    <div class="step-card" id="adim-2">
+      <span class="step-tag"><b>2</b> Donanımı bağla</span>
+      <h2>Follower, leader ve servo bus</h2>
+      <p>Önce follower kolu, sonra leader kolu USB üzerinden bilgisayara bağlayın. Feetech STS3215 servolar, kolun servo bus kartına ve ayrı bir güç kaynağına bağlı olmalıdır. Servolar seri bus (daisy-chain) mantığıyla zincirleme çalışır, bu yüzden tek kabloyla bütün eklemlere ulaşılır.</p>
+      <ul>
+        <li>Güç kaynağını kolun gerektirdiği gerilime uygun bağlayın.</li>
+        <li>USB bağlantısını yapın; bilgisayar her kol için yeni bir seri port göstermelidir.</li>
+        <li>Hareket alanını boşaltın; ilk teleoperasyonda kolun serbestçe dönebilmesi gerekir.</li>
+      </ul>
+    </div>
+
+    <div class="step-card" id="adim-3">
+      <span class="step-tag"><b>3</b> Portları ve motorları tanımla, kalibre et</span>
+      <h2>Seri port, motor kimlikleri ve kalibrasyon</h2>
+      <p>LeRobot'un follower ve leader kolu doğru seri porttan tanıyabilmesi için portları tespit etmeniz ve Feetech STS3215 motorlarını tanımlamanız gerekir. Ardından kalibrasyon adımı, her eklemin sıfır ve uç noktalarını öğreterek leader ve follower hareketlerinin örtüşmesini sağlar.</p>
+      <pre><code><span class="cmt"># Bağlı seri portları listele (örnek)</span>
+python -m lerobot.find_port
+
+<span class="cmt"># Kolları tanımla ve kalibrasyonu çalıştır</span>
+<span class="cmt"># (komut ve argümanlar resmi LeRobot dokümanını izler)</span>
+python -m lerobot.calibrate</code></pre>
+      <div class="note">Bu komutlar genel akışı gösterir. Doğru modül adları, port argümanları ve robot tipi seçenekleri sürümden sürüme değişebilir, bu yüzden <a href="https://huggingface.co/docs/lerobot" rel="noopener">resmi dokümandaki</a> tam komutları kullanın. <b>Hashtag Robotics kolları kalibre teslim edildiği için</b> bu adım çoğu durumda yalnızca doğrulamadan ibaret olur.</div>
+    </div>
+
+    <div class="step-card" id="adim-4">
+      <span class="step-tag"><b>4</b> Teleoperasyonu başlat</span>
+      <h2>Leader ile follower'ı sür</h2>
+      <p>Kalibrasyon tamamlandıktan sonra teleoperasyonu başlatın. Leader kolu elinizle hareket ettirdiğinizde follower kol bu hareketi gerçek zamanlı taklit eder. Bu, hem sistemi doğrulamanın hem de görev gösterimleri (demonstration) toplamanın temelidir.</p>
+      <pre><code><span class="cmt"># Teleoperasyonu başlat (leader -> follower)</span>
+python -m lerobot.teleoperate</code></pre>
+      <p>Follower, leader'ı pürüzsüz takip ediyorsa kurulum çalışıyor demektir. Takipte gecikme veya kayma varsa kalibrasyon adımını tekrarlayın ve port atamalarını kontrol edin.</p>
+    </div>
+
+    <div class="step-card" id="adim-5">
+      <span class="step-tag"><b>5</b> Veri topla ve taklit öğrenme eğit</span>
+      <h2>Kayıt, veri seti ve politika</h2>
+      <p>SO-101'in asıl gücü, teleoperasyonla topladığınız gösterimlerden bir politika öğrenmesidir. Bir görevi leader ile birkaç kez tekrarlayıp kayıt alarak veri seti oluşturursunuz, sonra bu veriyle bir taklit öğrenme politikası eğitir ve follower üzerinde değerlendirirsiniz.</p>
+      <pre><code><span class="cmt"># Bir görev için gösterim kaydet (veri seti oluştur)</span>
+python -m lerobot.record
+
+<span class="cmt"># Toplanan veriyle bir politika eğit</span>
+python -m lerobot.train
+
+<span class="cmt"># Eğitilen politikayı follower üzerinde çalıştır</span>
+python -m lerobot.eval</code></pre>
+      <p>Veri seti boyutu, görev tekrar sayısı ve seçilen politika mimarisi sonucu doğrudan etkiler. Önerilen iş akışları, episode sayıları ve politika tipleri için <a href="https://github.com/huggingface/lerobot" rel="noopener">LeRobot GitHub deposundaki</a> örneklere bakın.</p>
+    </div>
+
+    <h2>Hızlı referans</h2>
+    <table>
+      <thead>
+        <tr><th>Aşama</th><th>Amaç</th><th>Genel komut</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Kurulum</td><td>LeRobot'u sisteme ekle</td><td><code>pip install lerobot</code></td></tr>
+        <tr><td>Port bulma</td><td>Seri portları tespit et</td><td><code>lerobot.find_port</code></td></tr>
+        <tr><td>Kalibrasyon</td><td>Eklem sıfır/uç noktaları</td><td><code>lerobot.calibrate</code></td></tr>
+        <tr><td>Teleoperasyon</td><td>Leader ile follower'ı sür</td><td><code>lerobot.teleoperate</code></td></tr>
+        <tr><td>Veri toplama</td><td>Gösterim kaydet</td><td><code>lerobot.record</code></td></tr>
+        <tr><td>Eğitim</td><td>Politika eğit</td><td><code>lerobot.train</code></td></tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:-6px;">Tablodaki modül adları yön gösterme amaçlıdır. Çalıştırılabilir tam komutlar ve argümanlar için resmi LeRobot dokümantasyonu esas alınmalıdır.</p>
+
+    <h2>Sık karşılaşılan noktalar</h2>
+    <ul>
+      <li><strong>Port karışıklığı:</strong> İki kol da bağlıyken hangi portun follower hangisinin leader olduğunu doğru eşleştirin. Tek tek takıp port listesini karşılaştırmak en güvenli yöntemdir.</li>
+      <li><strong>Servo gücü:</strong> Feetech STS3215 servolar USB üzerinden değil, ayrı güç kaynağından beslenir. Kol "ölü" görünüyorsa önce güç ve bus bağlantısını kontrol edin.</li>
+      <li><strong>SO-100 ve SO-101 ayrımı:</strong> SO-100 önceki sürüm, SO-101 günceldir; SO-ARM100 / SO-ARM101 aynı ailenin adlandırmalarıdır. Doküman seçerken sürümü doğrulayın.</li>
+      <li><strong>Kalibrasyon teyidi:</strong> Hashtag Robotics kollarında kalibrasyon fabrikada yapılır, yine de ilk teleoperasyonda hareketleri gözlemleyip doğrulamanız önerilir.</li>
+    </ul>
+
+    <p>Daha derli toplu bir başlangıç için resmi kaynaklar ana referanstır: <a href="https://huggingface.co/docs/lerobot" rel="noopener">huggingface.co/docs/lerobot</a> ve <a href="https://github.com/huggingface/lerobot" rel="noopener">github.com/huggingface/lerobot</a>. Bu rehber, SO-101 ile genel akışı kurmanız için bir harita; komutların kesin halini her zaman güncel dokümandan alın.</p>
+  </article>
+
+  <section class="sec">
+    <div class="cta-band">
+      <h2>SO-101'i kurulu ve kalibre teslim alın</h2>
+      <p>Hashtag Robotics, SO-101 leader + follower setini kurulu, test edilmiş ve kalibre edilmiş şekilde gönderir. Kit montajıyla zaman kaybetmeden doğrudan LeRobot teleoperasyonuna ve veri toplamaya başlarsınız. Şu an ücretsiz ön satış, ödeme alınmaz.</p>
+      <a class="btn-primary" href="/product">Ön satış için yer ayır</a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <div class="fnote">© <span id="year">2026</span> Hashtag Robotics · Hashtag World Company · Açık kaynak robotik</div>
+  <div style="display:flex; gap:22px; flex-wrap:wrap;">
+    <a href="/">3D</a><a href="/product">Ön satış</a><a href="/sss">SSS</a><a href="/en/">EN/TR</a>
+  </div>
+</div></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

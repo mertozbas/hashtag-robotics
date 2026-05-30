@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SO-101 Nedir? Açık Kaynak Robot Kol Rehberi | Hashtag Robotics</title>
+<meta name="description" content="SO-101 nedir? 5 eksen ve paralel gripperlı, açık kaynak masaüstü robot kol. Feetech STS3215 servolar, LeRobot uyumlu, kurulu ve test edilmiş gelir. Leader ve follower farkı, kullanım alanları ve SSS." />
+<meta name="keywords" content="SO-101 nedir, açık kaynak robot kol nedir, LeRobot nedir, SO-ARM100, SO-ARM101, robot kol, Feetech STS3215, taklit öğrenme, teleoperasyon, Hashtag Robotics" />
+<meta name="author" content="Hashtag Robotics" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#0a0b0e" />
+<link rel="canonical" href="https://labs.hashtagworldcompany.com/so101-nedir" />
+<link rel="alternate" hreflang="tr" href="https://labs.hashtagworldcompany.com/so101-nedir" />
+<link rel="alternate" hreflang="en" href="https://labs.hashtagworldcompany.com/en/so101-guide" />
+<link rel="alternate" hreflang="x-default" href="https://labs.hashtagworldcompany.com/en/so101-guide" />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Hashtag Robotics" />
+<meta property="og:locale" content="tr_TR" />
+<meta property="og:title" content="SO-101 Nedir? Açık Kaynak Robot Kol Rehberi" />
+<meta property="og:description" content="5 eksen ve paralel gripperlı açık kaynak masaüstü robot kol. LeRobot uyumlu, kurulu ve test edilmiş gelir. SO-101 rehberi, leader/follower farkı ve kullanım alanları." />
+<meta property="og:url" content="https://labs.hashtagworldcompany.com/so101-nedir" />
+<meta property="og:image" content="https://labs.hashtagworldcompany.com/assets/og-cover.png" />
+<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SO-101 Nedir? Açık Kaynak Robot Kol Rehberi" />
+<meta name="twitter:description" content="5 eksen ve paralel gripperlı açık kaynak masaüstü robot kol. LeRobot uyumlu, kurulu ve test edilmiş gelir." />
+<meta name="twitter:image" content="https://labs.hashtagworldcompany.com/assets/og-cover.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/product.css" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://labs.hashtagworldcompany.com/#org",
+      "name": "Hashtag Robotics",
+      "url": "https://labs.hashtagworldcompany.com/",
+      "description": "Hashtag World Company'nin robotik kolu. Açık kaynak robotları kurulu ve test edilmiş halde sunar.",
+      "logo": "https://labs.hashtagworldcompany.com/assets/og-cover.png"
+    },
+    {
+      "@type": "Article",
+      "headline": "SO-101 Nedir? Açık Kaynak Robot Kol Rehberi",
+      "description": "SO-101 açık kaynak masaüstü robot kolun tanımı, leader ve follower farkı, LeRobot yazılımı, kullanım alanları ve kurulu satış yaklaşımı.",
+      "inLanguage": "tr",
+      "mainEntityOfPage": "https://labs.hashtagworldcompany.com/so101-nedir",
+      "image": "https://labs.hashtagworldcompany.com/assets/og-cover.png",
+      "about": "SO-101 açık kaynak robot kol",
+      "author": { "@id": "https://labs.hashtagworldcompany.com/#org" },
+      "publisher": { "@id": "https://labs.hashtagworldcompany.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "SO-101 nedir?",
+          "acceptedAnswer": { "@type": "Answer", "text": "SO-101, 5 eksenli ve paralel gripperlı, açık kaynak SO-ARM100/SO-101 tasarımına dayanan masaüstü robot koldur. Feetech STS3215 akıllı servolarla çalışır, 3D baskı gövdeye sahiptir ve Hugging Face LeRobot ile uyumludur." }
+        },
+        {
+          "@type": "Question",
+          "name": "SO-101 ile SO-100 arasındaki fark nedir?",
+          "acceptedAnswer": { "@type": "Answer", "text": "SO-100 daha eski sürüm, SO-101 güncel sürümdür. SO-ARM100 ve SO-ARM101 aynı ailenin isimlendirmeleridir; SO-101 bu tasarımın güncel halini ifade eder." }
+        },
+        {
+          "@type": "Question",
+          "name": "Leader ve follower kol arasındaki fark nedir?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Leader operatörün elle yönlendirdiği kontrol koludur. Follower ise görevi fiilen yapan koldur. Leader'ı hareket ettirdiğinizde follower aynı hareketi taklit eder; bu sayede teleoperasyon ve veri toplama yapılır." }
+        },
+        {
+          "@type": "Question",
+          "name": "LeRobot nedir ve SO-101 ile nasıl çalışır?",
+          "acceptedAnswer": { "@type": "Answer", "text": "LeRobot, Hugging Face'in açık kaynak robotik yazılım kütüphanesidir. Python ile teleoperasyon, veri toplama, taklit öğrenme ve politika eğitimi yapmanızı sağlar. SO-101 LeRobot ile uyumludur." }
+        },
+        {
+          "@type": "Question",
+          "name": "SO-101 kit olarak mı geliyor yoksa kurulu mu?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Hashtag Robotics'in sunduğu SO-101 kit değildir. Kurulu ve test edilmiş halde gelir; montajla uğraşmadan doğrudan kullanmaya başlarsınız." }
+        },
+        {
+          "@type": "Question",
+          "name": "SO-101 fiyatı ve satın alma nasıl?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Şu an SO-101 ücretsiz ön satış aşamasındadır ve henüz ödeme alınmamaktadır. Ön satış formunu doldurarak ilginizi bildirebilir, sıraya girebilirsiniz." }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Ana sayfa", "item": "https://labs.hashtagworldcompany.com/" },
+        { "@type": "ListItem", "position": 2, "name": "SO-101 Nedir", "item": "https://labs.hashtagworldcompany.com/so101-nedir" }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .article-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 120px 28px 40px;
+    font-family: var(--disp, "Space Grotesk", system-ui, sans-serif);
+    color: #e9eaee;
+    line-height: 1.7;
+  }
+  .article-wrap .crumb {
+    font-family: var(--mono, "IBM Plex Mono", monospace);
+    font-size: 11.5px; letter-spacing: 0.06em; color: #9a9ca6;
+    margin-bottom: 22px;
+  }
+  .article-wrap .crumb a { color: #9a9ca6; text-decoration: none; }
+  .article-wrap .crumb a:hover { color: #e8893c; }
+  .article-wrap h1 {
+    font-family: var(--disp, "Space Grotesk", sans-serif);
+    font-weight: 700; font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 14px;
+  }
+  .article-wrap h1 em { font-style: normal; color: #e8893c; }
+  .article-wrap .deck {
+    font-size: 17px; color: #9a9ca6; margin-bottom: 30px; line-height: 1.6;
+  }
+  .article-wrap h2 {
+    font-family: var(--disp, "Space Grotesk", sans-serif);
+    font-weight: 600; font-size: clamp(22px, 3.2vw, 30px);
+    letter-spacing: -0.02em; line-height: 1.15;
+    margin: 52px 0 16px; padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+  .article-wrap h2:first-of-type { border-top: 0; }
+  .article-wrap h3 {
+    font-family: var(--disp, "Space Grotesk", sans-serif);
+    font-weight: 600; font-size: 18.5px; letter-spacing: -0.01em;
+    margin: 30px 0 10px; color: #e9eaee;
+  }
+  .article-wrap p { margin: 0 0 18px; font-size: 16px; color: #d3d5dc; }
+  .article-wrap p.muted { color: #9a9ca6; }
+  .article-wrap a { color: #e8893c; text-decoration: none; border-bottom: 1px solid rgba(232,137,60,.32); }
+  .article-wrap a:hover { border-bottom-color: #e8893c; }
+  .article-wrap ul, .article-wrap ol { margin: 0 0 20px; padding-left: 22px; }
+  .article-wrap li { margin: 0 0 9px; font-size: 16px; color: #d3d5dc; }
+  .article-wrap strong { color: #e9eaee; font-weight: 600; }
+  .answer-box {
+    border-left: 3px solid #e8893c;
+    background: rgba(232,137,60,.07);
+    border-radius: 0 14px 14px 0;
+    padding: 22px 24px; margin: 0 0 34px;
+  }
+  .answer-box .ab-label {
+    font-family: var(--mono, "IBM Plex Mono", monospace);
+    font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #e8893c; margin-bottom: 10px;
+  }
+  .answer-box p { font-size: 17.5px; line-height: 1.62; color: #e9eaee; margin: 0; }
+  .answer-box p strong { color: #fff; }
+  .checklist-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 8px 0 24px;
+  }
+  .check-card {
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.025);
+    border-radius: 14px; padding: 20px 20px 16px;
+  }
+  .check-card h3 { margin: 0 0 12px; font-size: 16px; }
+  .check-card ul { list-style: none; padding: 0; margin: 0; }
+  .check-card li {
+    position: relative; padding-left: 26px; font-size: 14.5px; margin-bottom: 10px; color: #d3d5dc;
+  }
+  .check-card.yes li::before { content: "✓"; position: absolute; left: 0; top: 0; color: #6ea06e; font-weight: 700; }
+  .check-card.no li::before { content: "·"; position: absolute; left: 6px; top: -2px; color: #9a9ca6; font-size: 22px; line-height: 1; }
+  .article-wrap table {
+    width: 100%; border-collapse: collapse; margin: 8px 0 26px;
+    font-size: 14.5px; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; overflow: hidden;
+  }
+  .article-wrap thead th {
+    background: rgba(255,255,255,.05); color: #e9eaee; font-family: var(--disp, "Space Grotesk", sans-serif);
+    font-weight: 600; text-align: left; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .article-wrap tbody td {
+    padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.07); color: #d3d5dc; vertical-align: top;
+  }
+  .article-wrap tbody tr:last-child td { border-bottom: 0; }
+  .article-wrap tbody td:first-child { color: #9a9ca6; font-family: var(--mono, "IBM Plex Mono", monospace); font-size: 12.5px; }
+  .article-faq { margin: 14px 0 8px; }
+  .inline-cta { display: flex; flex-wrap: wrap; gap: 14px; margin: 30px 0 8px; }
+  @media (max-width: 640px) {
+    .article-wrap { padding-top: 100px; }
+    .checklist-grid { grid-template-columns: 1fr; }
+    .article-wrap table { font-size: 13px; }
+    .article-wrap thead th, .article-wrap tbody td { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+<div id="space"></div>
+<div id="stars"></div>
+
+<nav id="nav"><div class="wrap">
+  <a class="brand" href="/"><span class="mark"><b>#</b>Hashtag</span><span class="tag">Robotics</span></a>
+  <div class="nav-links">
+    <a href="/so101-nedir">SO-101 Nedir</a>
+    <a href="/so101-karsilastirma">Karşılaştırma</a>
+    <a href="/lerobot-kurulum">LeRobot</a>
+    <a href="/sss">SSS</a>
+    <a class="nav-back" href="/en/so101-guide">EN</a>
+    <a class="nav-cta" href="/product">Ön satış / Pre-order</a>
+  </div>
+</div></nav>
+
+<main>
+  <article class="article-wrap">
+    <div class="crumb"><a href="/">Ana sayfa</a> · SO-101 Nedir</div>
+
+    <h1>SO-101 <em>nedir?</em></h1>
+    <p class="deck">Açık kaynak masaüstü robot kol için sade, eksiksiz bir Türkçe rehber. Tanım, leader ve follower farkı, LeRobot yazılımı, kullanım alanları ve neden kurulu sattığımız.</p>
+
+    <div class="answer-box">
+      <div class="ab-label">Kısa cevap</div>
+      <p><strong>SO-101</strong>, 5 eksen ve paralel gripperlı, açık kaynak masaüstü bir robot koldur. Feetech STS3215 akıllı servolarla çalışır, 3D baskı gövdeye sahiptir ve Hugging Face LeRobot ile uyumludur. Leader ve follower olarak ikili çalışır; teleoperasyon, veri toplama ve taklit öğrenme için tasarlanmıştır. Hashtag Robotics onu kurulu ve test edilmiş halde sunar.</p>
+    </div>
+
+    <h2>SO-101 nedir? (detaylı)</h2>
+    <p>SO-101, açık kaynak <strong>SO-ARM100/SO-101</strong> tasarımına dayanan, masaüstü ölçekli bir robotik koldur. Beş hareket ekseni (5 DOF) ve bir paralel gripper (tutucu) ile çalışır; bu sayede uzayda erişebildiği noktaya uzanıp nesneleri kavrayabilir. Gövdesi PLA ve PETG gibi malzemelerle 3D baskı olarak üretilir, eklemleri ise <strong>Feetech STS3215</strong> seri veri yolu (serial-bus) akıllı servolarla tahrik edilir. Bu servolar hem hareketi sağlar hem de konum geri bildirimi verir, böylece kol kendi pozisyonunu bilir.</p>
+    <p>Adlandırma konusunda kafa karışıklığını gidermek gerekirse: <strong>SO-100</strong> daha eski sürüm, <strong>SO-101</strong> güncel sürümdür. <strong>SO-ARM100</strong> ve <strong>SO-ARM101</strong> aynı ailenin isimlendirmeleridir. Kısacası bugün "SO-101" dediğimizde bu açık tasarımın güncel halini kastediyoruz.</p>
+    <p>En önemli özelliği, kapalı bir ürün değil <strong>açık kaynak</strong> bir tasarım olmasıdır: parça geometrisi, montaj ve yazılım topluluk tarafından paylaşılır. Hashtag Robotics bu tasarımı temel alır, kurar, kalibre eder ve test ederek hazır hale getirir.</p>
+
+    <h2>Kimler için, kimler için değil?</h2>
+    <p class="muted">SO-101 belirli bir kullanıcı kitlesi için biçilmiş kaftan, bazıları içinse fazla gelebilir. Hızlı bir kontrol listesi:</p>
+    <div class="checklist-grid">
+      <div class="check-card yes">
+        <h3>Sizin için</h3>
+        <ul>
+          <li>Robotik ve yapay zekayı uygulamalı öğrenmek isteyen öğrenci ve eğitmenler</li>
+          <li>Taklit öğrenme ve politika eğitimi üzerine çalışan araştırmacılar</li>
+          <li>LeRobot ekosistemiyle deney yapmak isteyen geliştiriciler</li>
+          <li>Masaüstü ölçekte düşük maliyetli bir manipülasyon platformu arayanlar</li>
+          <li>Montajla uğraşmadan, kurulu bir kolla hemen başlamak isteyenler</li>
+        </ul>
+      </div>
+      <div class="check-card no">
+        <h3>Sizin için değil</h3>
+        <ul>
+          <li>Endüstriyel yük taşıma veya ağır sanayi otomasyonu arayanlar</li>
+          <li>Sertifikalı, fabrika hattı sınıfı bir robot bekleyenler</li>
+          <li>Yalnızca anahtar teslim, kapalı kutu bir ürün isteyip yazılıma hiç dokunmak istemeyenler</li>
+          <li>Milimetrenin altında tekrar hassasiyeti gereken hassas işleme uygulamaları</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Leader ve follower farkı</h2>
+    <p>SO-101 çoğunlukla <strong>ikili</strong> kullanılır: bir <strong>leader</strong> (önder) kol ve bir <strong>follower</strong> (takip eden) kol. İkisi aynı tasarımdır, rolleri farklıdır.</p>
+    <ul>
+      <li><strong>Leader:</strong> operatörün eliyle yönlendirdiği kontrol koludur. Onu tutup hareket ettirirsiniz; servolar her eklemin açısını anlık olarak okur.</li>
+      <li><strong>Follower:</strong> görevi fiilen yapan koldur. Leader'dan gelen eklem açılarını birebir taklit eder, böylece sizin elinizin hareketini masadaki nesneye taşır.</li>
+    </ul>
+    <p>Bu kurulum <strong>teleoperasyon</strong>un (uzaktan elle kontrol) temelidir ve aynı zamanda <strong>veri toplamanın</strong> da yoludur: siz bir görevi leader ile gösterirken, follower'ın eklem hareketleri kaydedilir. Bu kayıtlar daha sonra bir yapay zeka modelini eğitmek için kullanılır.</p>
+
+    <h2>LeRobot ve yazılım</h2>
+    <p><strong>LeRobot</strong>, Hugging Face'in açık kaynak robotik yazılım kütüphanesidir ve SO-101 bununla uyumludur. Python tabanlıdır; bir robot kolu sıfırdan kontrol etmek için gereken zinciri uçtan uca kapsar:</p>
+    <ul>
+      <li><strong>Teleoperasyon:</strong> leader kol ile follower kolu gerçek zamanlı sürmek.</li>
+      <li><strong>Veri toplama:</strong> görev gösterimlerini (episode) kaydedip veri kümesi oluşturmak.</li>
+      <li><strong>Taklit öğrenme:</strong> topladığınız gösterimlerden bir politika öğrenmek.</li>
+      <li><strong>Politika eğitimi:</strong> modeli eğitip kola yükleyerek görevi otonom yaptırmak.</li>
+    </ul>
+    <p>Kurulumun adım adım anlatımı için <a href="/lerobot-kurulum">LeRobot kurulum rehberimize</a> göz atabilirsiniz.</p>
+
+    <h2>Kullanım alanları</h2>
+    <p>SO-101'in güçlü olduğu yer, gerçek donanım üzerinde yapay zeka ve robotiği birlikte denemektir. Başlıca alanlar:</p>
+    <ul>
+      <li><strong>Eğitim:</strong> üniversite ve atölye derslerinde robotik, kontrol ve makine öğrenmesi için uygulamalı bir platform.</li>
+      <li><strong>Araştırma:</strong> manipülasyon, taklit öğrenme ve politika eğitimi deneyleri için erişilebilir bir test ortamı.</li>
+      <li><strong>Teleoperasyon:</strong> leader ile follower'ı sürerek nesne tutma, yerleştirme ve sıralama gibi görevler.</li>
+      <li><strong>Taklit öğrenme:</strong> insan gösterimlerinden öğrenen modeller kurup gerçek kolda çalıştırmak.</li>
+    </ul>
+
+    <h2>Kurulu mu, kit mi? Neden kurulu satıyoruz</h2>
+    <p>Açık kaynak robot kollar çoğunlukla <strong>kit</strong> olarak, yani parçalar halinde gelir: 3D baskıyı kendiniz yaptırır, servoları kalibre eder, kabloları döşer ve yazılımı sıfırdan ayağa kaldırırsınız. Bu yol öğreticidir ama zaman alır ve ilk başta hataya açıktır.</p>
+    <p>Hashtag Robotics'in sunduğu SO-101 ise <strong>kurulu ve test edilmiş</strong> gelir. Aradaki farkı tabloda görebilirsiniz:</p>
+    <table>
+      <thead>
+        <tr><th>Konu</th><th>Kit (parça halinde)</th><th>Hashtag Robotics · kurulu</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Montaj</td><td>Kendiniz yaparsınız</td><td>Bizde monte edilir</td></tr>
+        <tr><td>Servo kalibrasyonu</td><td>Sizin elinizde</td><td>Önceden yapılır</td></tr>
+        <tr><td>Test</td><td>Kendiniz doğrularsınız</td><td>Test edilerek gönderilir</td></tr>
+        <tr><td>Başlama süresi</td><td>Montaj sonrası</td><td>Kutudan çıkar çıkmaz</td></tr>
+        <tr><td>Açıklık</td><td>Açık kaynak</td><td>Aynı açık tasarım, kurulu hali</td></tr>
+      </tbody>
+    </table>
+    <p>Amacımız basit: tasarımın açıklığını korurken montaj engelini kaldırmak. Siz robotik ve yapay zekaya odaklanırsınız, kolu çalışır halde teslim almak bizim işimiz.</p>
+
+    <h2>Sık sorulan sorular</h2>
+    <div class="article-faq faq">
+      <details class="faq-item">
+        <summary>SO-101 ne işe yarar?</summary>
+        <p>SO-101, masaüstünde nesne tutma, yerleştirme ve sıralama gibi manipülasyon görevlerini yapabilen açık kaynak bir robot koldur. Asıl gücü, teleoperasyon ile veri toplayıp taklit öğrenme yoluyla bu görevleri otonom yaptırmaya olanak vermesidir.</p>
+      </details>
+      <details class="faq-item">
+        <summary>SO-101 ile SO-100 farkı nedir?</summary>
+        <p>SO-100 daha eski sürüm, SO-101 güncel sürümdür. SO-ARM100 ve SO-ARM101 aynı ailenin isimlendirmeleridir. Bugün "SO-101" güncel açık tasarımı ifade eder.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Programlama bilmem gerekir mi?</summary>
+        <p>Temel düzeyde Python bilmek işinizi çok kolaylaştırır, çünkü LeRobot Python tabanlıdır. Teleoperasyon ve hazır örneklerle başlayıp zamanla veri toplama ve model eğitimine geçebilirsiniz.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Kit olarak mı geliyor?</summary>
+        <p>Hayır. Hashtag Robotics'in sunduğu SO-101 kurulu ve test edilmiş halde gelir. Montaj ve kalibrasyonla uğraşmadan doğrudan kullanmaya başlarsınız.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Leader ve follower kol ayrı ayrı mı gerekiyor?</summary>
+        <p>Teleoperasyon ve veri toplama için ikili (leader + follower) yapı kullanılır. Leader operatörün yönlendirdiği kol, follower ise görevi yapan koldur.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Fiyat ne kadar, nasıl satın alırım?</summary>
+        <p>Şu an SO-101 ücretsiz ön satış aşamasındadır ve henüz ödeme alınmamaktadır. Ön satış formunu doldurarak ilginizi bildirebilir ve sıraya girebilirsiniz.</p>
+      </details>
+    </div>
+
+    <div class="inline-cta">
+      <a class="btn-primary" href="/product">Ön satışa katıl</a>
+      <a class="btn-ghost" href="/">3D olarak incele</a>
+    </div>
+  </article>
+
+  <section class="sec">
+    <div class="cta-band">
+      <h2>SO-101'i kurulu teslim alın</h2>
+      <p>Açık kaynak SO-101, monte edilmiş ve test edilmiş halde. Şu an ücretsiz ön satış · ödeme yok. Formu doldurun, sıraya girin.</p>
+      <a class="btn-primary" href="/product">Ön satış formunu aç</a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <div class="fnote">© <span id="year">2026</span> Hashtag Robotics · Hashtag World Company · Açık kaynak robotik</div>
+  <div style="display:flex; gap:22px; flex-wrap:wrap;">
+    <a href="/">3D</a><a href="/product">Ön satış</a><a href="/sss">SSS</a><a href="/en/so101-guide">EN/TR</a>
+  </div>
+</div></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>What Is the SO-101 Robot Arm? Buying &amp; SO-100 vs SO-101 Guide | Hashtag Robotics</title>
+<meta name="description" content="A clear guide to the SO-101 open-source robot arm: what it is, SO-100 vs SO-101 vs SO-ARM100/SO-ARM101 naming, assembled vs DIY kit, leader vs follower, and where to buy one assembled and tested. Free pre-order at Hashtag Robotics." />
+<meta name="keywords" content="SO-101, SO-101 robot arm, SO-100 vs SO-101, SO-ARM100, SO-ARM101, LeRobot, Hugging Face LeRobot, buy SO-101 assembled, Feetech STS3215, open source robot arm, Hashtag Robotics" />
+<meta name="author" content="Hashtag Robotics" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#0a0b0e" />
+<link rel="canonical" href="https://labs.hashtagworldcompany.com/en/so101-guide" />
+<link rel="alternate" hreflang="tr" href="https://labs.hashtagworldcompany.com/so101-nedir" />
+<link rel="alternate" hreflang="en" href="https://labs.hashtagworldcompany.com/en/so101-guide" />
+<link rel="alternate" hreflang="x-default" href="https://labs.hashtagworldcompany.com/en/so101-guide" />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Hashtag Robotics" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="What Is the SO-101 Robot Arm? Buying &amp; SO-100 vs SO-101 Guide" />
+<meta property="og:description" content="What the SO-101 open-source robot arm is, how the SO-100 / SO-101 / SO-ARM naming works, assembled vs kit, leader vs follower, and where to buy one ready to run with LeRobot." />
+<meta property="og:url" content="https://labs.hashtagworldcompany.com/en/so101-guide" />
+<meta property="og:image" content="https://labs.hashtagworldcompany.com/assets/og-cover.png" />
+<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="What Is the SO-101 Robot Arm? Buying &amp; SO-100 vs SO-101 Guide" />
+<meta name="twitter:description" content="A clear buying and disambiguation guide to the SO-101 open-source robot arm, sold assembled and tested by Hashtag Robotics." />
+<meta name="twitter:image" content="https://labs.hashtagworldcompany.com/assets/og-cover.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/product.css" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://labs.hashtagworldcompany.com/#org",
+      "name": "Hashtag Robotics",
+      "url": "https://labs.hashtagworldcompany.com/",
+      "logo": "https://labs.hashtagworldcompany.com/assets/og-cover.png",
+      "description": "The robotics arm of Hashtag World Company. Open-source robots sold assembled and tested.",
+      "parentOrganization": { "@type": "Organization", "name": "Hashtag World Company" }
+    },
+    {
+      "@type": "Article",
+      "headline": "What Is the SO-101 Robot Arm? Buying & SO-100 vs SO-101 Guide",
+      "description": "A clear guide to the SO-101 open-source robot arm: what it is, the SO-100 vs SO-101 vs SO-ARM naming, assembled vs DIY kit, leader vs follower, and where to buy one assembled and tested.",
+      "inLanguage": "en",
+      "image": "https://labs.hashtagworldcompany.com/assets/og-cover.png",
+      "author": { "@id": "https://labs.hashtagworldcompany.com/#org" },
+      "publisher": { "@id": "https://labs.hashtagworldcompany.com/#org" },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://labs.hashtagworldcompany.com/en/so101-guide" },
+      "about": { "@id": "https://labs.hashtagworldcompany.com/product#product" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the SO-101 robot arm?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The SO-101 is an open-source desktop robot arm with 5 degrees of freedom plus a parallel gripper, driven by Feetech STS3215 serial-bus smart servos and a 3D-printed body. It is compatible with Hugging Face LeRobot for teleoperation, data collection, imitation learning, and policy training. Hashtag Robotics sells it assembled and tested." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between the SO-100 and the SO-101?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The SO-100 is the earlier version of the design and the SO-101 is the current one. They share the same LeRobot-compatible family, the same Feetech STS3215 servos, and the same leader and follower concept. The SO-101 is the version to choose for new builds today." }
+        },
+        {
+          "@type": "Question",
+          "name": "Are SO-ARM100 and SO-ARM101 the same as SO-100 and SO-101?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. SO-ARM100 and SO-ARM101 are alternate names for the same open arm family. SO-ARM100 maps to the SO-100 generation and SO-ARM101 to the SO-101 generation. The hardware design and LeRobot compatibility are the same." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between the leader and follower arm?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The leader is the operator-guided controller arm you move by hand. The follower is the task arm that mirrors the leader to perform work. You teleoperate with the leader and record demonstrations on the follower for imitation learning." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the SO-101 from Hashtag Robotics come assembled?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Hashtag Robotics ships the SO-101 assembled and tested, based on the open SO-ARM100/SO-101 design. There is no kit assembly, so you can connect it and start working with LeRobot." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I buy the SO-101?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Hashtag Robotics is currently taking free pre-orders, with no payment collected yet. You can reserve an assembled and tested SO-101 on the pre-order page." }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://labs.hashtagworldcompany.com/" },
+        { "@type": "ListItem", "position": 2, "name": "SO-101 Guide", "item": "https://labs.hashtagworldcompany.com/en/so101-guide" }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .article-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 120px 28px 40px;
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    color: #e9eaee;
+    line-height: 1.7;
+  }
+  .article-wrap .crumbs {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9a9ca6;
+    margin-bottom: 22px;
+  }
+  .article-wrap .crumbs a { color: #9a9ca6; text-decoration: none; }
+  .article-wrap .crumbs a:hover { color: #e8893c; }
+  .article-wrap .crumbs span { color: #5f636f; margin: 0 8px; }
+  .article-wrap h1 {
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin-bottom: 14px;
+  }
+  .article-wrap h1 em { font-style: normal; color: #e8893c; }
+  .article-wrap .dek {
+    font-size: 17px;
+    color: #9a9ca6;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  .article-wrap h2 {
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: clamp(23px, 3.4vw, 30px);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 46px 0 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+  .article-wrap h3 {
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    margin: 28px 0 10px;
+    color: #e9eaee;
+  }
+  .article-wrap p { margin-bottom: 16px; color: #d4d6dd; }
+  .article-wrap ul, .article-wrap ol { margin: 0 0 18px 1.15em; color: #d4d6dd; }
+  .article-wrap li { margin-bottom: 8px; }
+  .article-wrap a { color: #e8893c; text-decoration: none; border-bottom: 1px solid rgba(232,137,60,.35); }
+  .article-wrap a:hover { border-bottom-color: #e8893c; }
+  .article-wrap strong { color: #f3f4f7; font-weight: 600; }
+  .answer-box {
+    background: rgba(232,137,60,.07);
+    border: 1px solid rgba(232,137,60,.25);
+    border-left: 3px solid #e8893c;
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin: 0 0 36px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #eef0f4;
+  }
+  .answer-box .alabel {
+    display: block;
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #e8893c;
+    margin-bottom: 10px;
+  }
+  .answer-box p { margin: 0; color: #eef0f4; }
+  .prose-table-wrap { overflow-x: auto; margin: 0 0 26px; -webkit-overflow-scrolling: touch; }
+  .article-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+    min-width: 520px;
+  }
+  .article-wrap table th,
+  .article-wrap table td {
+    border: 1px solid rgba(255,255,255,.1);
+    padding: 12px 14px;
+    text-align: left;
+    vertical-align: top;
+    color: #d4d6dd;
+  }
+  .article-wrap table thead th {
+    background: rgba(255,255,255,.045);
+    color: #f3f4f7;
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  .article-wrap table tbody th {
+    background: rgba(255,255,255,.02);
+    color: #eef0f4;
+    font-weight: 600;
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .article-wrap .endnote {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 11.5px;
+    color: #5f636f;
+    margin-top: 36px;
+    letter-spacing: 0.02em;
+  }
+  .article-wrap .faq { max-width: 100%; }
+  @media (max-width: 760px) {
+    .article-wrap { padding: 104px 20px 30px; }
+  }
+</style>
+</head>
+<body>
+<div id="space"></div>
+<div id="stars"></div>
+
+<nav id="nav"><div class="wrap">
+  <a class="brand" href="/"><span class="mark"><b>#</b>Hashtag</span><span class="tag">Robotics</span></a>
+  <div class="nav-links">
+    <a href="/en/so101-guide">What Is SO-101</a>
+    <a href="/so101-karsilastirma">Compare</a>
+    <a href="/lerobot-kurulum">LeRobot</a>
+    <a href="/sss">FAQ</a>
+    <a class="nav-back" href="/so101-nedir">TR</a>
+    <a class="nav-cta" href="/en/product">Pre-order</a>
+  </div>
+</div></nav>
+
+<main>
+  <article class="article-wrap">
+    <div class="crumbs">
+      <a href="/">Home</a><span>·</span>SO-101 Guide
+    </div>
+
+    <h1>What Is the <em>SO-101</em> Robot Arm? A Buying and Naming Guide</h1>
+    <p class="dek">Everything you need to make sense of the SO-101: what it is, how the SO-100, SO-101 and SO-ARM names relate, why an assembled arm beats a kit for most people, and where to get one ready to run with LeRobot.</p>
+
+    <div class="answer-box">
+      <span class="alabel">Short answer</span>
+      <p>The <strong>SO-101</strong> is an open-source desktop robot arm with 5 degrees of freedom plus a parallel gripper, built on Feetech STS3215 smart servos and a 3D-printed body, and fully compatible with Hugging Face LeRobot. It is the current version of the SO-ARM100/SO-101 design. <strong>Hashtag Robotics sells it assembled and tested</strong>, so you skip the build and start working right away.</p>
+    </div>
+
+    <h2>What is the SO-101</h2>
+    <p>The SO-101 is a compact, open-source robot arm designed to sit on a desk and learn real tasks. It has <strong>5 degrees of freedom plus a parallel gripper</strong>, which is enough to reach, rotate, and pick up everyday objects in a tabletop workspace.</p>
+    <p>Three things define it:</p>
+    <ul>
+      <li><strong>Feetech STS3215 serial-bus smart servos.</strong> These chainable smart servos report position and load over a single bus, so the arm is both the actuator and the sensor for learning.</li>
+      <li><strong>A 3D-printed body</strong> (PLA or PETG), based on the open SO-ARM100/SO-101 design. The mechanical files are public, which is what makes the platform open source.</li>
+      <li><strong>Hugging Face LeRobot compatibility.</strong> From Python you can teleoperate the arm, collect demonstration data, train imitation-learning policies, and run those policies back on the hardware.</li>
+    </ul>
+    <p>In short, the SO-101 is one of the most accessible ways to get into hands-on robot learning without building a full industrial cell.</p>
+
+    <h2>The naming maze: SO-100, SO-101, SO-ARM100, SO-ARM101</h2>
+    <p>The naming around this arm trips up a lot of first-time buyers. The good news is that it is simpler than it looks. <strong>SO-100 is the earlier version and SO-101 is the current one</strong>, and the SO-ARM names are just the longer form of the same family.</p>
+    <div class="prose-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">What it refers to</th>
+            <th scope="col">What differs</th>
+            <th scope="col">LeRobot family</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">SO-100</th>
+            <td>The earlier generation of the open arm design.</td>
+            <td>The first widely adopted revision. Refinements later landed in the SO-101.</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">SO-101</th>
+            <td>The current generation, and the one to choose for new builds.</td>
+            <td>The up-to-date revision of the same arm. This is what Hashtag Robotics ships.</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">SO-ARM100</th>
+            <td>The same arm as SO-100, written in the longer family naming.</td>
+            <td>A naming alias, not a different robot. Maps to the SO-100 generation.</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">SO-ARM101</th>
+            <td>The same arm as SO-101, written in the longer family naming.</td>
+            <td>A naming alias, not a different robot. Maps to the SO-101 generation.</td>
+            <td>Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>So if you see SO-100, SO-101, SO-ARM100 or SO-ARM101, you are looking at the same arm family. The number, 100 or 101, tells you the generation. For a new setup today, <strong>SO-101 (SO-ARM101) is the version to pick</strong>.</p>
+
+    <h2>Assembled vs DIY kit</h2>
+    <p>Because the design is open source, you can source parts and build an SO-101 yourself, or you can buy one already built. The path you choose mostly comes down to how you want to spend your time.</p>
+    <div class="prose-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Assembled (Hashtag Robotics)</th>
+            <th scope="col">DIY kit / self-build</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Assembly time</th>
+            <td>None. It arrives built.</td>
+            <td>Printing, wiring, servo ID setup and calibration before first use.</td>
+          </tr>
+          <tr>
+            <th scope="row">Tested</th>
+            <td>Yes. Each arm is assembled and tested before it ships.</td>
+            <td>You test and debug it yourself.</td>
+          </tr>
+          <tr>
+            <th scope="row">Support</th>
+            <td>Backed by Hashtag Robotics as the seller.</td>
+            <td>Community docs and your own troubleshooting.</td>
+          </tr>
+          <tr>
+            <th scope="row">Who it suits</th>
+            <td>Researchers, educators, founders and developers who want to run LeRobot, not build hardware.</td>
+            <td>Makers who enjoy the build and want full control of every part.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Both end up at the same open platform. The difference is where you start. If your goal is to collect data and train policies, an <strong>assembled and tested arm removes the hardware learning curve</strong> and gets you to the interesting part faster.</p>
+
+    <h2>Leader vs follower</h2>
+    <p>The SO-101 is usually used in a <strong>leader and follower configuration</strong>, which is how you teach it to do things.</p>
+    <ul>
+      <li><strong>Leader arm.</strong> The operator-guided controller. You move it by hand, and its joint positions become the command signal.</li>
+      <li><strong>Follower arm.</strong> The task arm. It mirrors the leader and actually performs the work, like picking and placing objects.</li>
+    </ul>
+    <p>To teleoperate, you guide the leader and the follower copies the motion in real time. To build a dataset, you record those demonstrations on the follower, then use them with LeRobot to train an imitation-learning policy. Once a policy is good enough, the follower can run on its own, without the leader.</p>
+
+    <h2>What you can build with LeRobot</h2>
+    <p>The reason the SO-101 matters is the software it plugs into. Hugging Face LeRobot is a Python toolkit for real-world robot learning, and the SO-101 is one of its supported arms. With it you can:</p>
+    <ul>
+      <li><strong>Teleoperate</strong> the follower with the leader arm and feel the workflow end to end.</li>
+      <li><strong>Collect demonstration data</strong> by recording episodes of a task you perform by hand.</li>
+      <li><strong>Train imitation-learning policies</strong> on that data, so the arm learns from your examples.</li>
+      <li><strong>Run policy training and evaluation</strong>, then deploy the trained policy back onto the hardware to see it act autonomously.</li>
+    </ul>
+    <p>That full loop, from teleoperation to data to a trained policy running on the arm, is exactly what makes the SO-101 a practical entry point into modern robot learning.</p>
+
+    <h2>Where to buy the SO-101 assembled</h2>
+    <p>Hashtag Robotics, the robotics arm of Hashtag World Company, sells the SO-101 in Turkey. We ship it <strong>assembled and tested</strong>, based on the open SO-ARM100/SO-101 design, including the leader and follower arms, so you can connect it and go straight to LeRobot.</p>
+    <p>Right now we are taking <strong>free pre-orders, with no payment collected yet</strong>. Reserving is a way to tell us you want one and to be first in line as we open availability.</p>
+    <p>Want to see it move first? Explore the interactive <a href="/">3D model</a>, then place a free pre-order on the <a href="/en/product">SO-101 pre-order page</a>.</p>
+
+    <h2>Frequently asked questions</h2>
+    <div class="faq">
+      <details class="faq-item">
+        <summary>Is the SO-101 the same robot as the SO-ARM101?</summary>
+        <p>Yes. SO-ARM101 is the longer family name for the SO-101 generation of the arm. Same hardware design, same Feetech STS3215 servos, same LeRobot compatibility.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Should I get the SO-100 or the SO-101?</summary>
+        <p>For a new build, choose the SO-101. The SO-100 is the earlier version of the same design, while the SO-101 is the current one. Hashtag Robotics ships the SO-101.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need to assemble anything?</summary>
+        <p>No. Hashtag Robotics ships the SO-101 assembled and tested. There is no kit build, no servo ID setup and no print-and-wire step on your side.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What do leader and follower mean?</summary>
+        <p>The leader is the arm you move by hand to control the system. The follower is the arm that mirrors the leader and performs the task. You teleoperate with the leader and record data on the follower.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is it really compatible with Hugging Face LeRobot?</summary>
+        <p>Yes. The SO-101 works with LeRobot in Python for teleoperation, data collection, imitation learning and policy training, then running those policies back on the arm.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How much does it cost and how do I order?</summary>
+        <p>Hashtag Robotics is currently taking free pre-orders with no payment collected yet. Reserve yours on the pre-order page and we will follow up as availability opens.</p>
+      </details>
+    </div>
+
+    <p class="endnote">SO-100, SO-101, SO-ARM100 and SO-ARM101 refer to the same open arm family. Hashtag Robotics ships the SO-101, assembled and tested.</p>
+  </article>
+
+  <section class="sec">
+    <div class="cta-band">
+      <h2>Get an SO-101, assembled and tested</h2>
+      <p>Skip the build. Reserve an SO-101 ready to run with LeRobot. Free pre-order, no payment collected yet.</p>
+      <a class="btn-primary" href="/en/product">
+        Pre-order the SO-101
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <div class="fnote">© <span id="year">2026</span> Hashtag Robotics · Hashtag World Company · Open-source robotics</div>
+  <div style="display:flex; gap:22px; flex-wrap:wrap;">
+    <a href="/">3D</a><a href="/en/product">Pre-order</a><a href="/sss">FAQ</a><a href="/so101-nedir">EN/TR</a>
+  </div>
+</div></footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
